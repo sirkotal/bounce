@@ -1,7 +1,6 @@
 initialize_board(10, [
         [border, border, border, border, border, border, border, border, border, border],
-        [border, empty, red, blue, red, blue, red, blue, empty, border],
-        [border, red, blue, red, blue, red, blue, red, blue, border],
+        [border, empty, blue, red, blue, red, blue, red, empty, border],
         [border, blue, red, blue, red, blue, red, blue, red, border],
         [border, red, blue, red, blue, red, blue, red, blue, border],
         [border, blue, red, blue, red, blue, red, blue, red, border],
