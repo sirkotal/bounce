@@ -1,3 +1,5 @@
 :- consult('src/board').
 
-play :- main_menu.
+display_game :- display_board(Board).
+
+play :- display_game.
