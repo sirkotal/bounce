@@ -11,7 +11,12 @@ replace([Row|Rest], RowIndex, Col, Val, [Row|NewRest]) :-
     NextIndex is RowIndex - 1,
     replace(Rest, NextIndex, Col, Val, NewRest).
 
-remove_piece(Board, X, Y, NewBoard) :-
+remove_checker(Board, X, Y, NewBoard) :-
     X > 0, X =< 10,   
     Y > 0, Y =< 10,
     replace(Board, X, Y, empty, NewBoard).
+
+place_checker(Board, X, Y, Checker, NewBoard) :-
+    X > 0, X =< 10,
+    Y > 0, Y =< 10,
+    replace(Board, X, Y, Checker, NewBoard).
