@@ -20,3 +20,7 @@ place_checker(Board, X, Y, Checker, NewBoard) :-
     X > 0, X =< 10,
     Y > 0, Y =< 10,
     replace(Board, X, Y, Checker, NewBoard).
+
+checker_move(Board, XCur, YCur, XNext, YNext, Checker, NewBoard) :-
+    remove_checker(Board, XCur, YCur, TempBoard),
+    place_checker(TempBoard, XNext, YNext, Checker, NewBoard).
