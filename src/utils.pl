@@ -12,4 +12,6 @@ replace([Row|Rest], RowIndex, Col, Val, [Row|NewRest]) :-
     replace(Rest, NextIndex, Col, Val, NewRest).
 
 remove_piece(Board, X, Y, NewBoard) :-
+    X > 0, X =< 10,   
+    Y > 0, Y =< 10,
     replace(Board, X, Y, empty, NewBoard).

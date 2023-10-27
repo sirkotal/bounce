@@ -1,4 +1,4 @@
-initialize_board(10, [
+initialize_board([
         [border, border, border, border, border, border, border, border, border, border],
         [border, empty, blue, red, blue, red, blue, red, empty, border],
         [border, blue, red, blue, red, blue, red, blue, red, border],
@@ -11,7 +11,7 @@ initialize_board(10, [
         [border, border, border, border, border, border, border, border, border, border]
 ]).
 
-display_board(Board) :- initialize_board(10, _Board), display_rows(_Board, 1, 10).
+display_board(GameBoard) :- display_rows(GameBoard, 1, 10).
 
 display_rows([], _, _).
 display_rows([Row | Rest], Line, Size) :-
