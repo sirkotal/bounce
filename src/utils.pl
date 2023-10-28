@@ -1,3 +1,7 @@
+get_cell(Board, X, Y, Cell) :-
+    nth1(X, Board, Row),
+    nth1(Y, Row, Cell).
+
 replace_in_row([_|Rest], 1, Val, [Val|Rest]).
 replace_in_row([X|Rest], Col, Val, [X|NewRest]) :-
     Col > 1,
@@ -24,3 +28,7 @@ place_checker(Board, X, Y, Checker, NewBoard) :-
 checker_move(Board, XCur, YCur, XNext, YNext, Checker, NewBoard) :-
     remove_checker(Board, XCur, YCur, TempBoard),
     place_checker(TempBoard, XNext, YNext, Checker, NewBoard).
+
+valid_move(Board, XCur, YCur, XNext, YNext, Checker, NewBoard) :- 
+    ((get_cell(Board, XCur, YCur, Checker), get_cell(Board, XNext, YNext, empty) -> checker_move(Board, XCur, YCur, XNext, YNext, Checker, NewBoard);
+    NewBoard = Board)).
