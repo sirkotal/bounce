@@ -20,3 +20,10 @@ On the SICStus interpreter, consult the *main.pl* file, located in the game's fo
 To start the game and enter the main menu, run the `play/0` predicate:
 
 ```?- play.```
+
+## Bibliography
+
+<https://www.marksteeregames.com/Bounce_rules.pdf>
+<https://www.swi-prolog.org/>
+<https://stackoverflow.com/>
+<https://eclipseclp.org/doc/bips/index.html>
