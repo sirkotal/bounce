@@ -23,7 +23,7 @@ To start the game and enter the main menu, run the `play/0` predicate:
 
 ## Bibliography
 
-<https://www.marksteeregames.com/Bounce_rules.pdf>
-<https://www.swi-prolog.org/>
-<https://stackoverflow.com/>
-<https://eclipseclp.org/doc/bips/index.html>
+- <https://www.marksteeregames.com/Bounce_rules.pdf>
+- <https://www.swi-prolog.org/>
+- <https://stackoverflow.com/>
+- <https://eclipseclp.org/doc/bips/index.html>
