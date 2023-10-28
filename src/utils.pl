@@ -29,6 +29,7 @@ checker_move(Board, XCur, YCur, XNext, YNext, Checker, NewBoard) :-
     remove_checker(Board, XCur, YCur, TempBoard),
     place_checker(TempBoard, XNext, YNext, Checker, NewBoard).
 
+/* check later (assign Checker to variable) */
 valid_move(Board, XCur, YCur, XNext, YNext, Checker, NewBoard) :- 
     ((get_cell(Board, XCur, YCur, Checker), get_cell(Board, XNext, YNext, empty) -> checker_move(Board, XCur, YCur, XNext, YNext, Checker, NewBoard);
     NewBoard = Board, write('That move is not valid!'), nl)).
