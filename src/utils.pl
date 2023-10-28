@@ -31,4 +31,14 @@ checker_move(Board, XCur, YCur, XNext, YNext, Checker, NewBoard) :-
 
 valid_move(Board, XCur, YCur, XNext, YNext, Checker, NewBoard) :- 
     ((get_cell(Board, XCur, YCur, Checker), get_cell(Board, XNext, YNext, empty) -> checker_move(Board, XCur, YCur, XNext, YNext, Checker, NewBoard);
-    NewBoard = Board)).
+    NewBoard = Board, write('That move is not valid!'), nl)).
+
+find_all_valid_moves(Board, Checker, ValidMoves) :-
+    findall((XCur, YCur, XNext, YNext), (
+        between(1, 10, XCur),
+        between(1, 10, YCur),
+        get_cell(Board, XCur, YCur, Color),
+        /* TODO */
+        member((XNext, YNext), EmptyCells),
+        valid_move(Board, XCur, YCur, XNext, YNext, Checker, _)
+    ), ValidMoves).
