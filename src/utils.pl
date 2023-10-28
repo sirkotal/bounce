@@ -16,13 +16,13 @@ replace([Row|Rest], RowIndex, Col, Val, [Row|NewRest]) :-
     replace(Rest, NextIndex, Col, Val, NewRest).
 
 remove_checker(Board, X, Y, NewBoard) :-
-    X > 1, X =< 9,   
-    Y > 1, Y =< 9,
+    X > 1, X < 10,   
+    Y > 1, Y < 10,
     replace(Board, X, Y, empty, NewBoard).
 
 place_checker(Board, X, Y, Checker, NewBoard) :-
-    X > 1, X =< 9,
-    Y > 1, Y =< 9,
+    X > 1, X < 10,
+    Y > 1, Y < 10,
     replace(Board, X, Y, Checker, NewBoard).
 
 checker_move(Board, XCur, YCur, XNext, YNext, Checker, NewBoard) :-
