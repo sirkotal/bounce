@@ -1,15 +1,10 @@
 :- use_module(library(lists)).
 
-/*move to utils*/
-get_element(Board, Row, Column, Element) :-
-    nth1(Row, Board, RowList),
-    nth1(Column, RowList, Element).
-
 count_adjacents(Position_row, Position_column, Board, Color, Total, InitialVisited, EndVisited) :-
     append([[Position_row, Position_column]], InitialVisited, Temporary),
     (Position_column < 10 ->
       NewPosition_column is Position_column + 1,
-      get_element(Board, Position_row, NewPosition_column, ElementRight),
+      get_cell(Board, Position_row, NewPosition_column, ElementRight),
       ((ElementRight = Color, \+ memberchk([Position_row, NewPosition_column], InitialVisited)) -> 
         InitialVisitedRight = Temporary,
         count_adjacents(Position_row, NewPosition_column, Board, Color, TotalRight, InitialVisitedRight, EndVisitedRight);  
@@ -18,7 +13,7 @@ count_adjacents(Position_row, Position_column, Board, Color, Total, InitialVisit
       
     (Position_column > 1 ->
       NewPosition_column1 is Position_column - 1,
-      get_element(Board, Position_row, NewPosition_column1, ElementLeft),
+      get_cell(Board, Position_row, NewPosition_column1, ElementLeft),
       ((ElementLeft = Color, \+ memberchk([Position_row, NewPosition_column1], EndVisitedRight)) ->
         InitialVisitedLeft = EndVisitedRight,
         count_adjacents(Position_row, NewPosition_column1, Board, Color, TotalLeft, InitialVisitedLeft, EndVisitedLeft);  
@@ -27,7 +22,7 @@ count_adjacents(Position_row, Position_column, Board, Color, Total, InitialVisit
 
     (Position_row < 10 ->
         NewPosition_row is Position_row + 1,
-        get_element(Board, NewPosition_row, Position_column, ElementBelow),
+        get_cell(Board, NewPosition_row, Position_column, ElementBelow),
         ((ElementBelow = Color, \+ memberchk([NewPosition_row, Position_column], EndVisitedLeft)) ->
           InitialVisitedBelow = EndVisitedLeft,
           count_adjacents(NewPosition_row, Position_column, Board, Color, TotalBelow, InitialVisitedBelow, EndVisitedBelow);  
@@ -36,7 +31,7 @@ count_adjacents(Position_row, Position_column, Board, Color, Total, InitialVisit
       
     (Position_row > 1 ->
       NewPosition_row1 is Position_row - 1,
-      get_element(Board, NewPosition_row1, Position_column, ElementAbove),
+      get_cell(Board, NewPosition_row1, Position_column, ElementAbove),
       ((ElementAbove = Color, \+ memberchk([NewPosition_row1, Position_column], EndVisitedBelow)) ->
         InitialVisitedAbove = EndVisitedBelow,
         count_adjacents(NewPosition_row1, Position_column, Board, Color, TotalAbove, InitialVisitedAbove, EndVisitedAbove);  
