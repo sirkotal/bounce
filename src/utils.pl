@@ -31,7 +31,11 @@ checker_move(Board, XCur, YCur, XNext, YNext, Checker, NewBoard) :-
 
 /* check later (assign Checker to variable) */
 valid_move(Board, XCur, YCur, XNext, YNext, Checker, NewBoard) :- 
-    ((get_cell(Board, XCur, YCur, Checker), get_cell(Board, XNext, YNext, empty) -> checker_move(Board, XCur, YCur, XNext, YNext, Checker, NewBoard);
+    ((get_cell(Board, XCur, YCur, Checker), get_cell(Board, XNext, YNext, empty) -> 
+        checker_move(Board, XCur, YCur, XNext, YNext, Checker, TemporaryBoard),
+        count_adjacents(XCur, YCur, Board, Checker, BeforeTotal, [], BeforeVisited),
+        count_adjacents(XNext, YNext, TemporaryBoard, Checker, AfterTotal, [], AfterVisited),
+        (AfterTotal > BeforeTotal -> NewBoard = TemporaryBoard; NewBoard = Board, write('That move is not valid!'), nl);
     NewBoard = Board, write('That move is not valid!'), nl)).
 
 find_all_valid_moves(Board, Checker, ValidMoves) :-

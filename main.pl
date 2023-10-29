@@ -4,7 +4,7 @@
 :- consult('src/utils').
 :- consult('src/logic').
 
-display_game :- initialize_board(Board), display_board(Board), remove_checker(Board, 2, 3, NewBoard), nl, display_board(NewBoard),
-                valid_move(NewBoard, 2, 2, 2, 3, red, UpdateBoard), nl, display_board(UpdateBoard).
+display_game :- initialize_board(Board), display_board(Board), nl,
+                valid_move(Board, 3, 4, 2, 9, blue, UpdateBoard), nl, display_board(UpdateBoard).
 
 play :- display_game.
