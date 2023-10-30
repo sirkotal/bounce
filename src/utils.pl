@@ -33,10 +33,10 @@ checker_move(Board, XCur, YCur, XNext, YNext, Checker, NewBoard) :-
 valid_move(Board, XCur, YCur, XNext, YNext, Checker, NewBoard) :- 
     ((get_cell(Board, XCur, YCur, Checker), get_cell(Board, XNext, YNext, empty) -> 
         checker_move(Board, XCur, YCur, XNext, YNext, Checker, TemporaryBoard),
-        count_adjacents(XCur, YCur, Board, Checker, BeforeTotal, [], BeforeVisited),
-        count_adjacents(XNext, YNext, TemporaryBoard, Checker, AfterTotal, [], AfterVisited),
-        (AfterTotal > BeforeTotal -> NewBoard = TemporaryBoard; NewBoard = Board, write('That move is not valid!'), nl);
-    NewBoard = Board, write('That move is not valid!'), nl)).
+        count_adjacents(XCur, YCur, Board, Checker, BeforeTotal, [], _BeforeVisited),
+        count_adjacents(XNext, YNext, TemporaryBoard, Checker, AfterTotal, [], _AfterVisited),
+        (AfterTotal > BeforeTotal -> NewBoard = TemporaryBoard; NewBoard = Board, write('That move is not valid!'), nl, fail);
+    NewBoard = Board, write('That move is not valid!'), nl, fail)).
 
 find_all_valid_moves(Board, Checker, ValidMoves) :-
     findall((XCur, YCur, XNext, YNext), (
@@ -47,3 +47,35 @@ find_all_valid_moves(Board, Checker, ValidMoves) :-
         member((XNext, YNext), EmptyCells),
         valid_move(Board, XCur, YCur, XNext, YNext, Checker, _)
     ), ValidMoves).
+
+read_move(X, Context):-
+    repeat,
+    write(''),nl,
+    atom_concat('INSERT THE ', Context, Print),
+    write(Print), nl,
+    read(X),
+    ((X > 1 , X < 10) -> !; (write('WRONG OPTION, PLEASE ENTER ANOTHER ONE'), nl, fail)).
+
+choose_move(Board, Player, NewBoard):-
+    repeat,
+    read_move(XCur, 'CURRENT ROW'),
+    read_move(YCur, 'CURRENT COLUMN'),
+    read_move(XNext, 'NEW ROW'),
+    read_move(YNext, 'NEW COLUMN'),
+    valid_move(Board, XCur, YCur, XNext, YNext, Player, NewBoard).
+
+next_player(Player, NextPlayer) :-
+    (Player = red -> NextPlayer = blue; NextPlayer = red).
+
+game_over(Board, Player, Winner):- 
+    next_player(Player, PreviousPlayer),
+    get_cell(Board, X, Y, PreviousPlayer), !, 
+    count_adjacents(X, Y, Board, PreviousPlayer, Total, [], _Visited),
+    (Total = 30 -> Winner = PreviousPlayer; fail).
+
+congratulate(Winner):-
+    write(''),nl,
+    atom_concat('OH MY F*CKING GOD congratulation for winning this game ', Winner, Print),
+    write(Print),
+    write(', imagine playing this tho...').
+    
