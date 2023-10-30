@@ -8,7 +8,7 @@ initialize_board([
         [border, blue, red, blue, red, blue, red, blue, red, border],
         [border, red, blue, red, blue, red, blue, red, blue, border],
         [border, empty, red, blue, red, blue, red, blue, empty, border],
-        [border, border, border, border, border, border, border, border, border, border]
+        [specialborder, border, border, border, border, border, border, border, border, border]
 ]).
 
 display_board(GameBoard) :- write('     1  2  3  4  5  6  7  8  9  10'), nl, write('     _____________________________'), 
@@ -31,4 +31,5 @@ display_cell(empty) :- write(' - ').
 display_cell(blue) :- write(' B ').
 display_cell(red) :- write(' R ').
 display_cell(border) :- write(' # ').
+display_cell(specialborder) :- write('# ').
 display_cell(_).
