@@ -2,6 +2,25 @@ get_cell(Board, X, Y, Cell) :-
     nth1(X, Board, Row),
     nth1(Y, Row, Cell).
 
+count_checkers(Board, Checker, Count) :-
+    count_checkers(Board, Checker, 1, 1, 0, Count).
+
+count_checkers([], _, _, _, Count, Count).
+count_checkers([Row|Rest], Checker, X, Y, Temp, Count) :-
+    count_checkers_in_row(Row, Checker, X, Y, RowCount),
+    XNext is X + 1,
+    TempCount is Temp + RowCount,
+    count_checkers(Rest, Checker, XNext, Y, TempCount, Count).
+
+count_checkers_in_row([], _, _, _, 0).
+count_checkers_in_row([Checker|Rest], Checker, X, Y, RowCount) :-
+    YNext is Y + 1,
+    count_checkers_in_row(Rest, Checker, X, YNext, TempRowCount),
+    RowCount is 1 + TempRowCount.
+count_checkers_in_row([_|Rest], Checker, X, Y, RowCount) :-
+    YNext is Y + 1,
+    count_checkers_in_row(Rest, Checker, X, YNext, RowCount).
+
 replace_in_row([_|Rest], 1, Val, [Val|Rest]).
 replace_in_row([X|Rest], Col, Val, [X|NewRest]) :-
     Col > 1,
@@ -71,7 +90,8 @@ game_over(Board, Player, Winner):-
     next_player(Player, PreviousPlayer),
     get_cell(Board, X, Y, PreviousPlayer), !, 
     count_adjacents(X, Y, Board, PreviousPlayer, Total, [], _Visited),
-    (Total = 30 -> Winner = PreviousPlayer; fail).
+    count_checkers(Board, PreviousPlayer, Count),
+    (Total = Count -> Winner = PreviousPlayer; fail).
 
 congratulate(Winner):-
     write(''),nl,

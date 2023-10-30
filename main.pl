@@ -22,4 +22,5 @@ play:-
     show_menu,
     initialize_board(Board),
     display_board(Board),
+    count_checkers(Board, red, RedCount), write('Number of red checkers: '), write(RedCount), nl,
     game_cycle(Board, red).
