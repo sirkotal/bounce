@@ -1,6 +1,6 @@
 initialize_board([
         [border, border, border, border, border, border, border, border, border, border],
-        [border, empty, blue, blue, blue, red, blue, red, empty, border],
+        [border, empty, blue, red, blue, red, blue, red, empty, border],
         [border, blue, red, blue, red, blue, red, blue, red, border],
         [border, red, blue, red, blue, red, blue, red, blue, border],
         [border, blue, red, blue, red, blue, red, blue, red, border],
@@ -11,7 +11,8 @@ initialize_board([
         [border, border, border, border, border, border, border, border, border, border]
 ]).
 
-display_board(GameBoard) :- display_rows(GameBoard, 1, 10).
+display_board(GameBoard) :- write('     1  2  3  4  5  6  7  8  9  10'), nl, write('     _____________________________'), 
+                            nl, nl, display_rows(GameBoard, 1, 10).
 
 display_rows([], _, _).
 display_rows([Row | Rest], Line, Size) :-
