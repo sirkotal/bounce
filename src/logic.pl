@@ -42,3 +42,16 @@ count_adjacents(Position_row, Position_column, Board, Color, Total, InitialVisit
       
     EndVisited = EndVisitedAbove.
 
+bot_random_move(Board, ValidMoves) :-
+    length(ValidMoves, N),
+    random(0, N, Index),
+    nth0(Index, ValidMoves, (XCur, YCur, XNext, YNext)),
+    valid_move(Board, XCur, YCur, XNext, YNext, Checker, NewBoard),
+    Board = NewBoard.
+
+
+bot_move(Diff, Checker) :-
+    ((Diff = 1) -> 
+    find_all_valid_moves(Board, Checker, ValidMoves),
+    bot_random_move(Board, ValidMoves);
+    find_all_valid_moves(Board, Checker, ValidMoves)).
