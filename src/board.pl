@@ -1,13 +1,13 @@
 initialize_board([
         [border, border, border, border, border, border, border, border, border, border],
         [border, red, red, red, red, red, red, red, blue, border],
-        [border, empty, blue, blue, red, blue, blue, blue, blue, border],
+        [border, red, blue, blue, red, blue, blue, blue, blue, border],
         [border, blue, blue, blue, blue, blue, blue, blue, blue, border],
         [border, blue, blue, blue, blue, blue, red, blue, red, border],
         [border, blue, blue, red, blue, red, red, red, red, border],
         [border, blue, red, red, red, red, red, red, red, border],
-        [border, blue, blue, red, red, red, red, red, red, border],
-        [border, blue, blue, blue, red, red, red, empty, empty, border],
+        [border, blue, blue, red, red, red, red, red, empty, border],
+        [border, blue, blue, red, red, empty, blue, empty, empty, border],
         [border, border, border, border, border, border, border, border, border, border]
 ]).
 
