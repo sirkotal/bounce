@@ -16,13 +16,13 @@ replace([Row|Rest], RowIndex, Col, Val, [Row|NewRest]) :-
     replace(Rest, NextIndex, Col, Val, NewRest).
 
 remove_checker(Board, X, Y, NewBoard) :-
-    X > 1, X < 10,   
-    Y > 1, Y < 10,
+    X > 0, X < 9,   
+    Y > 0, Y < 9,
     replace(Board, X, Y, empty, NewBoard).
 
 place_checker(Board, X, Y, Checker, NewBoard) :-
-    X > 1, X < 10,
-    Y > 1, Y < 10,
+    X > 0, X < 9,
+    Y > 0, Y < 9,
     replace(Board, X, Y, Checker, NewBoard).
 
 checker_move(Board, XCur, YCur, XNext, YNext, Checker, NewBoard) :-
@@ -40,8 +40,8 @@ valid_move(Board, XCur, YCur, XNext, YNext, Checker, NewBoard) :-
 
 find_all_valid_moves(Board, Checker, ValidMoves) :-
     findall((XCur, YCur, XNext, YNext), (
-        between(1, 10, XCur),
-        between(1, 10, YCur),
+        between(1, 8, XCur),
+        between(1, 8, YCur),
         get_cell(Board, XCur, YCur, Color),
         /* TODO */
         member((XNext, YNext), EmptyCells),
