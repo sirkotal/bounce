@@ -4,6 +4,7 @@
 :- consult('src/utils').
 :- consult('src/logic').
 :- consult('src/menu').
+:- consult('src/database').
 
 game_cycle(Board, Player):-
     game_over(Board, Player, Winner), !,
@@ -24,3 +25,5 @@ play:-
     display_board(Board),
     count_checkers(Board, red, RedCount), write('Number of red checkers: '), write(RedCount), nl,
     game_cycle(Board, red).
+
+//play :- display_game, choose_difficulty(x).
