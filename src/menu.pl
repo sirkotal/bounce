@@ -1,21 +1,23 @@
 show_menu :-
     write('----- BOUNCE -----'), nl,
-    write(' '), nl,
+    write(''), nl,
     write('1 - PLAY'), nl,
-    write(' '), nl,
+    write(''), nl,
     write('2 - RULES'), nl,
-    write(' '), nl,
+    write(''), nl,
     write('3 - EXIT'), nl,
-    write(' '), nl.
+    write(''), nl,
+    read_menu(_X).
 
 read_menu(X) :- 
     repeat,
     write('INSERT AN OPTION'), nl,
     read(X),
-    ((X = 1 ; X = 2 ; X = 3) -> option(X) ; (write('WRONG OPTION, PLEASE ENTER ANOTHER ONE'), nl, fail)).
+    ((X = 1 ; X = 2 ; X = 3) -> option(X), !; (write('WRONG OPTION, PLEASE ENTER ANOTHER ONE'), nl, fail)).
 
 option(1) :- 
-    write('GAME').
+    write('--GAME--'), nl,
+    write(''), nl.
 
 option(2) :- 
     write('INTRODUCTION: Bounce is a two-player game played on a square board of any even size. The board is initially filled with a checkerboard pattern of red and blue checkers, except the corner squares, which are unoccupied. Mark Steere designed Bounce in August 2023.'), nl,

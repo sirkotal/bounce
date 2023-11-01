@@ -8,8 +8,7 @@ initialize_board([
         [border, blue, red, blue, red, blue, red, blue, red, border],
         [border, red, blue, red, blue, red, blue, red, blue, border],
         [border, empty, red, blue, red, blue, red, blue, empty, border],
-        [specialborder, border, border, border, border, border, border, border, border, border]
-]).
+        [specialborder, border, border, border, border, border, border, border, border, border]]).
 
 display_board(GameBoard) :- write('     1  2  3  4  5  6  7  8  9  10'), nl, write('     _____________________________'), 
                             nl, nl, display_rows(GameBoard, 1, 10).
