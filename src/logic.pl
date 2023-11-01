@@ -49,9 +49,19 @@ bot_random_move(Board, ValidMoves) :-
     valid_move(Board, XCur, YCur, XNext, YNext, Checker, NewBoard),
     Board = NewBoard.
 
+bot_greedy_move([], Best, Best).
+bot_greedy_move([(XCur, YCur, XNext, YNext) | Rest], (BestXCur, BestYCur, BestXNext, BestYNext), Best) :-
+    count_adjacents(XCur, YCur, Board, Checker, BeforeTotal, [], _BeforeVisited),
+    checker_move(Board, XCur, YCur, XNext, YNext, Checker, TemporaryBoard),
+    count_adjacents(XNext, YNext, TemporaryBoard, Checker, AfterTotal, [], _AfterVisited),
+    (AfterTotal > BeforeTotal ->
+        bot_greedy_move(Rest, (XCur, YCur, XNext, YNext), BestMove);
+        bot_greedy_move(Rest, (BestXCur, BestYCur, BestXNext, BestYNext), BestMove)
+    ).
 
 bot_move(Diff, Checker) :-
     ((Diff = 1) -> 
     find_all_valid_moves(Board, Checker, ValidMoves),
     bot_random_move(Board, ValidMoves);
-    find_all_valid_moves(Board, Checker, ValidMoves)).
+    find_all_valid_moves(Board, Checker, ValidMoves)),
+    bot_greedy_move(ValidMoves, Placeholder, Best).

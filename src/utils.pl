@@ -3,7 +3,7 @@ get_cell(Board, X, Y, Cell) :-
     nth1(Y, Row, Cell).
 
 
-/* maybe change this to databas*/
+/* maybe change this to database */
 count_checkers(Board, Checker, Count) :-
     count_checkers(Board, Checker, 1, 1, 0, Count).
 
