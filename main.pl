@@ -27,4 +27,4 @@ play:-
     display_board(Board),
     count_checkers(Board, red, RedCount), write('Number of red checkers: '), write(RedCount), nl,
     choose_difficulty(X),
-    game_cycle(Board, red).
+    /* game_cycle(Board, red). */

@@ -2,6 +2,8 @@ get_cell(Board, X, Y, Cell) :-
     nth1(X, Board, Row),
     nth1(Y, Row, Cell).
 
+
+/* maybe change this to databas*/
 count_checkers(Board, Checker, Count) :-
     count_checkers(Board, Checker, 1, 1, 0, Count).
 
@@ -14,6 +16,7 @@ count_checkers([Row|Rest], Checker, X, Y, Temp, Count) :-
 
 count_checkers_in_row([], _, _, _, 0).
 count_checkers_in_row([Checker|Rest], Checker, X, Y, RowCount) :-
+    !,
     YNext is Y + 1,
     count_checkers_in_row(Rest, Checker, X, YNext, TempRowCount),
     RowCount is 1 + TempRowCount.
@@ -59,12 +62,12 @@ valid_move(Board, XCur, YCur, XNext, YNext, Checker, NewBoard) :-
 
 find_all_valid_moves(Board, Checker, ValidMoves) :-
     findall((XCur, YCur, XNext, YNext), (
-        between(1, 10, XCur),
-        between(1, 10, YCur),
-        get_cell(Board, XCur, YCur, Color),
-        /* TODO */
-        member((XNext, YNext), EmptyCells),
-        valid_move(Board, XCur, YCur, XNext, YNext, Checker, _)
+        get_cell(Board, XCur, YCur, Checker),
+        get_cell(Board, XNext, YNext, empty),
+        count_adjacents(XCur, YCur, Board, Checker, BeforeTotal, [], _BeforeVisited),
+        checker_move(Board, XCur, YCur, XNext, YNext, Checker, TemporaryBoard),
+        count_adjacents(XNext, YNext, TemporaryBoard, Checker, AfterTotal, [], _AfterVisited),
+        AfterTotal > BeforeTotal
     ), ValidMoves).
 
 read_move(X, Context):-
@@ -77,11 +80,17 @@ read_move(X, Context):-
 
 choose_move(Board, Player, NewBoard):-
     repeat,
-    read_move(XCur, 'CURRENT ROW'),
-    read_move(YCur, 'CURRENT COLUMN'),
-    read_move(XNext, 'NEW ROW'),
-    read_move(YNext, 'NEW COLUMN'),
-    valid_move(Board, XCur, YCur, XNext, YNext, Player, NewBoard).
+    find_all_valid_moves(Board, Player, ValidMoves),
+    length(ValidMoves, Moves),
+    (Moves = 0 -> write(''), nl, write('THERE ARE NO AVAILABLE MOVES PLEASE CHOOSE A PIECE TO REMOVE'), nl,
+        read_move(XCur, 'ROW'),
+        read_move(YCur, 'COLUMN'),
+        remove_checker(Board, XCur, YCur, NewBoard);
+        read_move(XCur, 'CURRENT ROW'),
+        read_move(YCur, 'CURRENT COLUMN'),
+        read_move(XNext, 'NEW ROW'),
+        read_move(YNext, 'NEW COLUMN'),
+        valid_move(Board, XCur, YCur, XNext, YNext, Player, NewBoard)).
 
 next_player(Player, NextPlayer) :-
     (Player = red -> NextPlayer = blue; NextPlayer = red).
@@ -91,6 +100,8 @@ game_over(Board, Player, Winner):-
     get_cell(Board, X, Y, PreviousPlayer), !, 
     count_adjacents(X, Y, Board, PreviousPlayer, Total, [], _Visited),
     count_checkers(Board, PreviousPlayer, Count),
+    write('here'),
+    write(Count),
     (Total = Count -> Winner = PreviousPlayer; fail).
 
 congratulate(Winner):-
