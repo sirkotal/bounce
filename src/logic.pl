@@ -49,19 +49,32 @@ bot_random_move(Board, ValidMoves) :-
     valid_move(Board, XCur, YCur, XNext, YNext, Checker, NewBoard),
     Board = NewBoard.
 
-bot_greedy_move([], Best, Best).
-bot_greedy_move([(XCur, YCur, XNext, YNext) | Rest], (BestXCur, BestYCur, BestXNext, BestYNext), Best) :-
+bot_greedy_move([], Best, Best, Board).
+bot_greedy_move([(XCur, YCur, XNext, YNext) | Rest], (BestXCur, BestYCur, BestXNext, BestYNext), Best, Board) :-
+    write('X'),
     count_adjacents(XCur, YCur, Board, Checker, BeforeTotal, [], _BeforeVisited),
+    write('Y'),
     checker_move(Board, XCur, YCur, XNext, YNext, Checker, TemporaryBoard),
+    write('Z'),
     count_adjacents(XNext, YNext, TemporaryBoard, Checker, AfterTotal, [], _AfterVisited),
+    write('XCur: '), write(XCur), nl,
+    write('YCur: '), write(YCur), nl,
+    write('XNext: '), write(XNext), nl,
+    write('YNext: '), write(YNext), nl,
+    write('BeforeTotal: '), write(BeforeTotal), nl,
+    write('AfterTotal: '), write(AfterTotal), nl,
     (AfterTotal > BeforeTotal ->
-        bot_greedy_move(Rest, (XCur, YCur, XNext, YNext), BestMove);
-        bot_greedy_move(Rest, (BestXCur, BestYCur, BestXNext, BestYNext), BestMove)
+        bot_greedy_move(Rest, (XCur, YCur, XNext, YNext), BestMove, TemporaryBoard);
+        bot_greedy_move(Rest, (BestXCur, BestYCur, BestXNext, BestYNext), BestMove, Board)
     ).
 
-bot_move(Diff, Checker) :-
+
+bot_move(Board, Diff, Checker, NewBoard) :-
+    write('Diff: '), write(Diff), nl,
     ((Diff = 1) -> 
     find_all_valid_moves(Board, Checker, ValidMoves),
     bot_random_move(Board, ValidMoves);
-    find_all_valid_moves(Board, Checker, ValidMoves)),
-    bot_greedy_move(ValidMoves, Placeholder, Best).
+    write('Chose 2'), nl,
+    find_all_valid_moves(Board, Checker, ValidMoves),
+    write('Progressing'), nl, 
+    bot_greedy_move(ValidMoves, (0,0,0,0), Best, NewBoard), write('leaving'), nl).
