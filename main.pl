@@ -8,17 +8,19 @@
 :- consult('src/utils').
 :- consult('src/menu').
 
-/* game_cycle(Board, Player):-
+test:- 
+    initialize_board(Board),
+    display_board(Board),
+    bot_move(Board, 2, red, NewBoard).
+
+ game_cycle(Board, Player):-
     game_over(Board, Player, Winner), !,
-    congratulate(Winner). */
+    congratulate(Winner). 
 
 game_cycle(Board, Player):-
-    write(''),nl,
-    write('BOT MOVE!!'), nl,
-    bot_move(Board, 2, red, NewBoard),
-    write('boaarrrrd'),
+    write(Player),nl,
+    bot_move(Board, 2, Player, NewBoard),!,
     display_board(NewBoard), !,
-    write('got here'),
     next_player(Player, NextPlayer),  
     game_cycle(NewBoard, NextPlayer).
     /*

@@ -3,7 +3,7 @@ get_cell(Board, X, Y, Cell) :-
     nth1(Y, Row, Cell).
 
 
-/* maybe change this to database */
+/* maybe change this to databas*/
 count_checkers(Board, Checker, Count) :-
     count_checkers(Board, Checker, 1, 1, 0, Count).
 
@@ -38,13 +38,13 @@ replace([Row|Rest], RowIndex, Col, Val, [Row|NewRest]) :-
     replace(Rest, NextIndex, Col, Val, NewRest).
 
 remove_checker(Board, X, Y, NewBoard) :-
-    X > 1, X < 10,   
-    Y > 1, Y < 10,
+    X > 0, X < 9,   
+    Y > 0, Y < 9,
     replace(Board, X, Y, empty, NewBoard).
 
 place_checker(Board, X, Y, Checker, NewBoard) :-
-    X > 1, X < 10,
-    Y > 1, Y < 10,
+    X > 0, X < 9,
+    Y > 0, Y < 9,
     replace(Board, X, Y, Checker, NewBoard).
 
 checker_move(Board, XCur, YCur, XNext, YNext, Checker, NewBoard) :-
@@ -53,12 +53,12 @@ checker_move(Board, XCur, YCur, XNext, YNext, Checker, NewBoard) :-
 
 /* check later (assign Checker to variable) */
 valid_move(Board, XCur, YCur, XNext, YNext, Checker, NewBoard) :- 
-    ((get_cell(Board, XCur, YCur, Checker), get_cell(Board, XNext, YNext, empty) -> 
+    ((get_cell(Board, XCur, YCur, Checker), get_cell(Board, XNext, YNext, empty)) -> 
         checker_move(Board, XCur, YCur, XNext, YNext, Checker, TemporaryBoard),
         count_adjacents(XCur, YCur, Board, Checker, BeforeTotal, [], _BeforeVisited),
         count_adjacents(XNext, YNext, TemporaryBoard, Checker, AfterTotal, [], _AfterVisited),
         (AfterTotal > BeforeTotal -> NewBoard = TemporaryBoard; NewBoard = Board, write('That move is not valid!'), nl, fail);
-    NewBoard = Board, write('That move is not valid!'), nl, fail)).
+    NewBoard = Board, write('That move is not valid!'), nl, fail).
 
 find_all_valid_moves(Board, Checker, ValidMoves) :-
     findall((XCur, YCur, XNext, YNext), (
@@ -76,7 +76,7 @@ read_move(X, Context):-
     atom_concat('INSERT THE ', Context, Print),
     write(Print), nl,
     read(X),
-    ((X > 1 , X < 10) -> !; (write('WRONG OPTION, PLEASE ENTER ANOTHER ONE'), nl, fail)).
+    ((X > 0 , X < 9) -> !; (write('WRONG OPTION, PLEASE ENTER ANOTHER ONE'), nl, fail)).
 
 choose_move(Board, Player, NewBoard):-
     repeat,
@@ -100,8 +100,6 @@ game_over(Board, Player, Winner):-
     get_cell(Board, X, Y, PreviousPlayer), !, 
     count_adjacents(X, Y, Board, PreviousPlayer, Total, [], _Visited),
     count_checkers(Board, PreviousPlayer, Count),
-    write('here'),
-    write(Count),
     (Total = Count -> Winner = PreviousPlayer; fail).
 
 congratulate(Winner):-
@@ -109,4 +107,3 @@ congratulate(Winner):-
     atom_concat('OH MY F*CKING GOD congratulation for winning this game ', Winner, Print),
     write(Print),
     write(', imagine playing this tho...').
-    
