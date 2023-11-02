@@ -76,7 +76,7 @@ read_move(X, Context):-
     atom_concat('INSERT THE ', Context, Print),
     write(Print), nl,
     read(X),
-    ((X > 1 , X < 10) -> !; (write('WRONG OPTION, PLEASE ENTER ANOTHER ONE'), nl, fail)).
+    ((X > 0 , X < 9) -> !; (write('WRONG OPTION, PLEASE ENTER ANOTHER ONE'), nl, fail)).
 
 choose_move(Board, Player, NewBoard):-
     repeat,
