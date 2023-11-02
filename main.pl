@@ -7,14 +7,14 @@
 :- consult('src/logic').
 :- consult('src/utils').
 :- consult('src/menu').
-:- consult('src/database').
+:- consult('src/cpu').
 
 test:- 
     initialize_board(Board),
     display_board(Board),
     bot_move(Board, 2, red, NewBoard).
 
- game_cycle(Board, Player):-
+game_cycle(Board, Player):-
     game_over(Board, Player, Winner), !,
     congratulate(Winner). 
 
