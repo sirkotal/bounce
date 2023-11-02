@@ -22,6 +22,11 @@ bot_random_remove(Board, Checker, NewBoard) :-
     random_select((XPos, YPos), Checkers, RemainingCheckers),
     remove_checker(Board, XPos, YPos, NewBoard).
 
+bot_greedy_remove(Board, Checker, NewBoard) :-
+    findall((X, Y), get_cell(Board, X, Y, Checker), Checkers),
+    /* TODO */
+    remove_checker(Board, XPos, YPos, NewBoard).
+
 bot_move(Board, Diff, Checker, NewBoard) :-
     find_all_valid_moves(Board, Checker, ValidMoves),
     ((Diff = 1, ValidMoves \= []) -> 
@@ -33,4 +38,5 @@ bot_move(Board, Diff, Checker, NewBoard) :-
     bot_greedy_move(ValidMoves, Checker, (0,0,0,0), Best, 0, Board),
     (XCur, YCur, XNext, YNext) = Best,
     checker_move(Board, XCur, YCur, XNext, YNext, Checker, NewBoard);
+    bot_greedy_remove(Board, Checker, NewBoard)
     ).
