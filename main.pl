@@ -4,8 +4,8 @@
 
 :- consult('src/board').
 :- consult('src/database').
-:- consult('src/utils').
 :- consult('src/logic').
+:- consult('src/utils').
 :- consult('src/menu').
 
 /* game_cycle(Board, Player):-
@@ -20,7 +20,7 @@ game_cycle(Board, Player):-
     display_board(NewBoard), !,
     write('got here'),
     next_player(Player, NextPlayer),  
-    game_cycle(NextBoard, NextPlayer).
+    game_cycle(NewBoard, NextPlayer).
     /*
     atom_concat('PLAYER TURN: ', Player, Print),
     write(Print), nl,
