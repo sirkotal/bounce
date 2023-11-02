@@ -7,6 +7,7 @@
 :- consult('src/logic').
 :- consult('src/utils').
 :- consult('src/menu').
+:- consult('src/database').
 
 test:- 
     initialize_board(Board),
@@ -37,3 +38,5 @@ play:-
     display_board(Board),
     count_checkers(Board, red, RedCount), write('Number of red checkers: '), write(RedCount), nl,
     game_cycle(Board, red).
+
+//play :- display_game, choose_difficulty(x).
