@@ -20,8 +20,9 @@ bot_greedy_move([(XCur, YCur, XNext, YNext) | Rest], Checker, (BestXCur, BestYCu
 
 bot_random_remove(Board, Checker, NewBoard) :-
     findall((X, Y), get_cell(Board, X, Y, Checker), Checkers),
-    random_select((XPos, YPos), Checkers, RemainingCheckers),
-    remove_checker(Board, XPos, YPos, NewBoard).
+    random_member((XPos, YPos), Checkers),
+    /* write('XPos: '), write(XPos), nl, write('YPos: '), write(YPos), nl, */
+    remove_checker(Board, XPos, YPos, NewBoard), !.
 
 bot_find_min_group([], Checker, Worst, Worst, Min, _).
 bot_find_min_group([(XCur, YCur) | Rest], Checker, (XRemove, YRemove), Worst, Min, Board) :-
@@ -40,14 +41,33 @@ bot_greedy_remove(Board, Checker, NewBoard) :-
 
 bot_move(Board, Diff, Checker, NewBoard) :-
     find_all_valid_moves(Board, Checker, ValidMoves),
+
+    (Diff = 1 ->
+    (ValidMoves \= [] ->
+        bot_random_move(Board, ValidMoves, NewBoard);
+        /* write('hello'), nl, */
+        bot_random_remove(Board, Checker, NewBoard)
+    );
+    
+    Diff = 2 ->
+    (ValidMoves \= [] ->
+        bot_greedy_move(ValidMoves, Checker, (0,0,0,0), Best, 0, Board),
+        (XCur, YCur, XNext, YNext) = Best,
+        checker_move(Board, XCur, YCur, XNext, YNext, Checker, NewBoard);
+        /* write('not here hopefully'), nl, */
+        bot_greedy_remove(Board, Checker, NewBoard)
+    )).
+    /*
     ((Diff = 1, ValidMoves \= []) -> 
     bot_random_move(Board, ValidMoves, NewBoard);
-    bot_random_remove(Board, Checker, NewBoard)),
+    write('hello'), nl,
+    bot_random_remove(Board, Checker, NewBoard)), */
 
-    ((Diff = 2, ValidMoves \= []) -> 
+    /*((Diff = 2, ValidMoves \= []) -> */
     /* print_valid_moves(ValidMoves), */
-    bot_greedy_move(ValidMoves, Checker, (0,0,0,0), Best, 0, Board),
+    /*bot_greedy_move(ValidMoves, Checker, (0,0,0,0), Best, 0, Board),
     (XCur, YCur, XNext, YNext) = Best,
     checker_move(Board, XCur, YCur, XNext, YNext, Checker, NewBoard);
+    write('not here hopefully'), nl,
     bot_greedy_remove(Board, Checker, NewBoard)
-    ).
+    ).*/
