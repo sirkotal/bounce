@@ -4,11 +4,22 @@ initialize_board([
         [empty, blue, red, blue, red, blue, red, empty],
         [blue, red, blue, red, blue, red, blue, red],
         [red, blue, red, blue, red, blue, red, blue],
-        [blue, red, red, red, blue, red, blue, red],
+        [blue, red, blue, red, blue, red, blue, red],
         [red, blue, red, blue, red, blue, red, blue],
         [blue, red, blue, red, blue, red, blue, red],
         [red, blue, red, blue, red, blue, red, blue],
         [empty, red, blue, red, blue, red, blue, empty]
+]).
+
+test_board([
+        [blue, blue, red, blue, red, blue, red, blue],
+        [blue, red, blue, red, blue, red, blue, red],
+        [red, blue, red, blue, red, blue, red, blue],
+        [blue, red, blue, red, blue, red, blue, red],
+        [red, blue, red, blue, red, blue, red, blue],
+        [blue, red, blue, red, blue, red, blue, red],
+        [red, blue, red, blue, red, blue, red, blue],
+        [blue, red, blue, red, blue, red, blue, blue]
 ]).
 
 /* display_board(+Board) */

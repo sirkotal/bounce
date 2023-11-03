@@ -1,5 +1,6 @@
 :- use_module(library(lists)).
 :- use_module(library(random)).
+:- use_module(library(between)).
 
 bot_random_move(Board, ValidMoves, NewBoard) :-
     length(ValidMoves, N),
@@ -26,8 +27,8 @@ bot_find_min_group([], Checker, Worst, Worst, Min, _).
 bot_find_min_group([(XCur, YCur) | Rest], Checker, (XRemove, YRemove), Worst, Min, Board) :-
     count_adjacents(XCur, YCur, Board, Checker, Total, [], _Visited),
     (Total < Min ->
-        bot_greedy_move(Rest, Checker, (XCur, YCur), Worst, Total, Board);
-        bot_greedy_move(Rest, Checker, (XRemove, YRemove), Worst, Min, Board)
+        bot_find_min_group(Rest, Checker, (XCur, YCur), Worst, Total, Board);
+        bot_find_min_group(Rest, Checker, (XRemove, YRemove), Worst, Min, Board)
     ).
 
 bot_greedy_remove(Board, Checker, NewBoard) :-

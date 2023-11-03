@@ -10,9 +10,10 @@
 :- consult('src/cpu').
 
 test:- 
-    initialize_board(Board),
+    test_board(Board),
     display_board(Board),
-    bot_move(Board, 2, red, NewBoard).
+    bot_move(Board, 2, red, NewBoard),
+    display_board(NewBoard).
 
 game_cycle(Board, Player):-
     game_over(Board, Player, Winner), !,
@@ -39,4 +40,4 @@ play:-
     count_checkers(Board, red, RedCount), write('Number of red checkers: '), write(RedCount), nl,
     game_cycle(Board, red).
 
-//play :- display_game, choose_difficulty(x).
+/*play :- display_game, choose_difficulty(x).*/
