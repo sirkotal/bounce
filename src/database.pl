@@ -1,13 +1,9 @@
-:- dynamic difficulty/2.
-
-difficulty_level(1) :- write('Prepare to Win!'), nl, asserta(difficulty(Bot, 1)).
-difficulty_level(2) :- write('Prepare to Lose!'), nl, asserta(difficulty(Bot, 2)).
+:- dynamic bot/2.
 
 choose_difficulty(Bot) :-
-    write('Difficulty:'), nl,
-    write('1 - Can I Play, Daddy?'), nl,
-    write('2 - I Am Death Incarnate!'), nl,
-    write('> '),
+    write('----- BOT -----'), nl,
+    write('1 - RANDOM'), nl,
+    write('2 - GREEDY'), nl,
     read(Option),
     ((Option = 1 ; Option = 2) -> 
-        difficulty_level(Option) ; nl, write('PLEASE SELECT AN ACTUAL DIFFICULTY LEVEL.'), nl, fail).
+        assert(bot(Bot, Option)) ; nl, write('WRONG OPTION, PLEASE ENTER ANOTHER ONE'), nl, fail).

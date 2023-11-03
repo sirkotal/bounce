@@ -1,4 +1,5 @@
-initialize_board([
+
+initial_state([
         [empty, blue, red, blue, red, blue, red, empty],
         [blue, red, blue, red, blue, red, blue, red],
         [red, blue, red, blue, red, blue, red, blue],
@@ -9,7 +10,18 @@ initialize_board([
         [empty, red, blue, red, blue, red, blue, empty]
 ]).
 
-display_board(Board) :- 
+/*initial_state([
+        [empty, red, red, blue, blue, blue, blue, empty],
+        [red, red, red, blue, blue, blue, blue, blue],
+        [red, red, red, blue, blue, blue, blue, blue],
+        [red, red, red, red, blue, blue, blue, blue],
+        [red, blue, red, red, blue, blue, red, blue],
+        [red, red, red, red, red, red, red, blue],
+        [red, red, red, blue, red, blue, red, blue],
+        [empty, red, blue, blue, blue, blue, red, empty]
+]).*/
+
+display_game([Board,_]) :- 
         write('     1  2  3  4  5  6  7  8'), nl,
         write('    ________________________'), nl, nl,
         display_rows(Board, 1, 10),
