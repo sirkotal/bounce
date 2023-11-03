@@ -29,7 +29,6 @@ count_adjacents(Position_row, Position_column, Board, Color, Total, InitialVisit
 remove_checker(Board, X, Y, NewBoard) :-
     X > 0, X < 9,   
     Y > 0, Y < 9,
-    /* write('Remove X: '), write(X), nl, write('Remove Y: '), write(Y), nl, */
     replace(Board, X, Y, empty, NewBoard).
 
 place_checker(Board, X, Y, Checker, NewBoard) :-
