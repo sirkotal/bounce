@@ -49,3 +49,6 @@ replace([Row|Rest], RowIndex, Col, Val, [Row|NewRest]) :-
     RowIndex > 1,
     NextIndex is RowIndex - 1,
     replace(Rest, NextIndex, Col, Val, NewRest).
+
+find_all_checkers(Board, Checker, Checkers) :-
+    findall((X, Y), (between(1, 8, X), between(1, 8, Y), get_cell(Board, X, Y, Checker)), Checkers).

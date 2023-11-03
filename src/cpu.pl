@@ -22,9 +22,19 @@ bot_random_remove(Board, Checker, NewBoard) :-
     random_select((XPos, YPos), Checkers, RemainingCheckers),
     remove_checker(Board, XPos, YPos, NewBoard).
 
+bot_find_min_group([], Checker, Worst, Worst, Min, _).
+bot_find_min_group([(XCur, YCur) | Rest], Checker, (XRemove, YRemove), Worst, Min, Board) :-
+    count_adjacents(XCur, YCur, Board, Checker, Total, [], _Visited),
+    (Total < Min ->
+        bot_greedy_move(Rest, Checker, (XCur, YCur), Worst, Total, Board);
+        bot_greedy_move(Rest, Checker, (XRemove, YRemove), Worst, Min, Board)
+    ).
+
 bot_greedy_remove(Board, Checker, NewBoard) :-
-    findall((X, Y), get_cell(Board, X, Y, Checker), Checkers),
-    /* TODO */
+    count_checkers(Board, Checker, Min),
+    find_all_checkers(Board, Checker, Checkers),
+    bot_find_min_group(Checkers, Checker, (0,0), Worst, Min, Board),
+    (XPos, YPos) = Worst,
     remove_checker(Board, XPos, YPos, NewBoard).
 
 bot_move(Board, Diff, Checker, NewBoard) :-
