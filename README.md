@@ -56,6 +56,75 @@ The internal representation of the game's state is a structure composed of:
 - ***Board*** → a NxN matrix, where N is an even integer; each cell of the matrix can be either `O` (red), `X` (blue) or `-` (empty)
 - ***Player*** → represents the current player, which is either `red` or `blue`
 
+**Initial State**:
+
+```prolog
+(
+    [
+        [empty, blue, red, blue, red, blue, red, empty],
+        [blue, red, blue, red, blue, red, blue, red],
+        [red, blue, red, blue, red, blue, red, blue],
+        [blue, red, blue, red, blue, red, blue, red],
+        [red, blue, red, blue, red, blue, red, blue],
+        [blue, red, blue, red, blue, red, blue, red],
+        [red, blue, red, blue, red, blue, red, blue],
+        [empty, red, blue, red, blue, red, blue, empty]
+    ],
+    red)
+```
+
+> The initial state of the board is always the same (for boards of the same size) - filled with a checkerboard pattern of both red and blue checkers, with the exception of the corner squares which are unoccupied, and with Red making the first move.
+
+**Intermediate State**:
+
+```prolog
+(
+    [
+        [empty, blue, empty, blue, red, blue, red, red],
+        [blue, red, blue, red, blue, red, blue, red],
+        [red, blue, red, blue, red, blue, red, blue],
+        [blue, red, empty, red, blue, red, blue, red],
+        [red, blue, red, blue, red, blue, red, blue],
+        [blue, red, blue, red, blue, red, blue, red],
+        [red, blue, red, blue, red, blue, red, blue],
+        [empty, red, blue, red, blue, red, blue, blue]
+    ],
+    blue)
+```
+
+> This is an example of how the board could look in an intermediate state, where both Red and Blue have moved checkers but no pieces have been removed from the board yet.
+
+**Final State**:
+
+```prolog
+(
+    [
+        [red, red, red, red, red, red, red, blue],
+        [empty, blue, blue, red, blue, blue, blue, blue],
+        [blue, blue, blue, blue, blue, blue, blue, blue],
+        [blue, blue, blue, blue, blue, red, blue, red],
+        [blue, blue, red, blue, red, red, red, red],
+        [blue, red, red, red, red, red, red, red],
+        [blue, blue, red, red, red, red, red, red],
+        [blue, blue, blue, red, red, empty, empty, empty]
+    ],
+    red)
+```
+
+> This represents a possible state of the game in its final phase, where Blue has won the game by putting all of his checkers in one group.
+
+### Game State Visualization
+
+### Move Validation and Execution
+
+### List of Valid Moves
+
+### End of Game
+
+### Game State Evaluation
+
+### Computer Plays
+
 ## Bibliography
 
 - <https://www.marksteeregames.com/Bounce_rules.pdf>
