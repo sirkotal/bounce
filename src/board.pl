@@ -20,6 +20,9 @@ initial_state([
         [blue, red, blue, blue, blue, blue, blue, empty]
 ]).*/
 
+initial_state(Number, Board):-
+        
+
 display_game([Board,_]) :- 
         write('     1  2  3  4  5  6  7  8'), nl,
         write('    ________________________'), nl, nl,
@@ -44,3 +47,54 @@ display_cell(empty) :- write(' - ').
 display_cell(blue) :- write(' X ').
 display_cell(red) :- write(' O ').
 display_cell(_).
+
+
+/*if there is time*/
+
+/*% Define the dimensions of the board.
+% Define the initial state predicate.
+initial_state(Size, Board) :-
+    initial_board(Size, Size, Board).
+
+print_array([]). 
+print_array([Head | Tail]) :-
+    write(Head), 
+    nl,          
+    print_array(Tail).
+
+% Define the initial board predicate.
+initial_board(NRows, NCols, Board) :-
+    initial_board(NRows, NCols, [], Board).
+
+% Define a helper predicate to create the initial board row by row.
+initial_board(0, _, Board, Board).
+initial_board(N, NCols, PartialBoard, Board) :-
+    length(PartialBoard, SizeBoard),
+    ((SizeBoard = 0 ; N = 1) -> create_row_special(NCols, [], Row, red);
+    (N mod 2 =:= 0 ->  
+      create_row(NCols, Row, red);
+      create_row(NCols, Row, blue))),
+    N1 is N - 1,
+    initial_board(N1, NCols, [Row | PartialBoard], Board).
+
+% Define a helper predicate to create a single row of the board.
+create_row(NCols, Row, Color) :-
+    create_row(NCols, [], Row, Color).
+
+create_row_special(0, Row, Row, _).
+create_row_special(N, PartialRow, Row, Color) :-
+    length(PartialRow, Size),
+    next_color(Color, NextColor),
+    N1 is N - 1,
+    ((Size = 0; N = 1) -> 
+    create_row_special(N1, [empty | PartialRow], Row, NextColor);
+    create_row_special(N1, [Color | PartialRow], Row, NextColor)).
+
+create_row(0, Row, Row, _).
+create_row(N, PartialRow, Row, Color) :-
+    next_color(Color, NextColor),
+    N1 is N - 1,
+    create_row(N1, [Color | PartialRow], Row, NextColor).
+
+next_color(Color, NextColor):-
+    (Color = red -> NextColor = blue; NextColor = red).*/
