@@ -25,18 +25,25 @@ To start the game and enter the main menu, run the `play/0` predicate:
 
 Bounce is a two-player game created by Mark Steere in August 2023. It is played on a square board of any even size (the default being 8x8), filled with a checkerboard pattern of both red and blue checkers, with the exception of the corner squares which are unoccupied.
 
-![initial-board](images/figure_1.png)
+<p align="center">
+  <img src="images/figure_1.png" alt="initial-board">
+</p>
 
 Bounce is a relatively simple game to play: starting with Red, players take turns moving one of their checkers to an unoccupied square (if they have a legal move available). 
 A move is "legal" when the checker you move is part of a larger group than it was before your move.
 
-![valid-move](images/figure_2.png)
+<p align="center">
+  <img src="images/figure_2.png" alt="valid-move">
+</p>
 
 However, if you don't have any legal moves available on your turn, you must instead remove any one of your checkers from the board concluding your turn.
 
 To win a game, all you need to do is to have all of your checkers in one group at the end of your turn.
 
-![win-board](images/figure_3.png)
+<p align="center">
+  <img src="images/figure_3.png" alt="win-board">
+</p>
+
 
 ***Source:*** <https://www.marksteeregames.com/Bounce_rules.pdf>
 
