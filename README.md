@@ -36,7 +36,7 @@ A move is "legal" when the checker you move is part of a larger group than it wa
   <img src="images/figure_2.png" alt="valid-move">
 </p>
 
-However, if you don't have any legal moves available on your turn, you must instead remove any one of your checkers from the board concluding your turn.
+However, if you don't have any legal moves available on your turn, you must instead remove any one of your checkers from the board, concluding your turn.
 
 To win a game, all you need to do is to have all of your checkers in one group at the end of your turn.
 
@@ -46,6 +46,15 @@ To win a game, all you need to do is to have all of your checkers in one group a
 
 
 ***Source:*** <https://www.marksteeregames.com/Bounce_rules.pdf>
+
+## Game Logic
+
+### Internal Game State Representation
+
+The internal representation of the game's state is a structure composed of:
+
+- ***Board*** → a NxN matrix, where N is an even integer; each cell of the matrix can be either `O` (red), `X` (blue) or `-` (empty)
+- ***Player*** → represents the current player, which is either `red` or `blue`
 
 ## Bibliography
 
