@@ -8,17 +8,6 @@ bot_random_move(Board, ValidMoves, Move) :-
     nth0(Index, ValidMoves, (XCur, YCur, XNext, YNext)),
     Move = (XCur, YCur, XNext, YNext).
 
-bot_greedy_move([], _, Best, Best, _, _).
-bot_greedy_move([(XCur, YCur, XNext, YNext) | Rest], Player, (BestXCur, BestYCur, BestXNext, BestYNext), Best, Max, Board) :-
-    temp_move(Board, Player, XCur, YCur, XNext, YNext, TemporaryBoard),
-    count_adjacents(XCur, YCur, Board, Player, BeforeTotal, [], _BeforeVisited),
-    count_adjacents(XNext, YNext, TemporaryBoard, Player, AfterTotal, [], _AfterVisited),
-    Difference = AfterTotal - BeforeTotal,
-    (Difference > Max ->
-        bot_greedy_move(Rest, Player, (XCur, YCur, XNext, YNext), Best, Difference, Board);
-        bot_greedy_move(Rest, Player, (BestXCur, BestYCur, BestXNext, BestYNext), Best, Max, Board)
-    ).
-
 bot_random_remove(Board, Player, Move) :-
     findall((X, Y), get_cell(Board, X, Y, Player), Checkers),
     random_member((XPos, YPos), Checkers),
@@ -34,6 +23,7 @@ bot_find_min_group([(XCur, YCur) | Rest], Checker, (XRemove, YRemove), Worst, Mi
     ).
 
 bot_greedy_remove(Board, Player, Move) :-
+    write('what'),
     count_checkers(Board, Player, Min),
     findall((X, Y), get_cell(Board, X, Y, Player), Checkers),
     bot_find_min_group(Checkers, Player, (0,0), Worst, Min, Board),

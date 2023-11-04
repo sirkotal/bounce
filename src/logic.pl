@@ -1,13 +1,14 @@
 :- use_module(library(lists)).
+:- use_module(library(sets)).
+
+move([Board, Player], (XCur, YCur, -1, -1), NewGameState) :-
+    remove_checker(Board, XCur, YCur, NewBoard),
+    next_player(Player, NextPlayer),
+    NewGameState = [NewBoard, NextPlayer].
 
 move([Board, Player], (XCur, YCur, XNext, YNext), NewGameState) :-
     remove_checker(Board, XCur, YCur, TempBoard),
     place_checker(TempBoard, XNext, YNext, Player, NewBoard),
-    next_player(Player, NextPlayer),
-    NewGameState = [NewBoard, NextPlayer].
-
-move([Board, Player], (XCur, YCur, -1, -1), NewGameState) :-
-    remove_checker(Board, XCur, YCur, NewBoardBoard),
     next_player(Player, NextPlayer),
     NewGameState = [NewBoard, NextPlayer].
 
@@ -30,6 +31,7 @@ choose_move([Board,Player], Move):-
             (memberchk((XCur, YCur, XNext, YNext), ValidMoves) -> Move = (XCur, YCur, XNext, YNext); write(''), nl, write('THAT MOVE IS NOT VALID!'), nl, fail))).
 
 choose_move([Board,Player], Player, 1, Move):-
+    write('here'),
     valid_moves([Board,Player], Player, ValidMoves),
     (ValidMoves \= [] ->
         bot_random_move(Board, ValidMoves, Move);
@@ -38,27 +40,29 @@ choose_move([Board,Player], Player, 1, Move):-
 
 choose_move([Board,Player], Player, 2, Move):-
     valid_moves([Board,Player], Player, ValidMoves),
-    write('valid'),
-    setof((Value, Mv), NewState^(member(Mv, ValidMoves),
-            move(GameState, Mv, NewState),
-            write('here'),
-            display_game(NewState),
-            value(NewState, Player, Value)), [(_V-Move)|_]).
+    (ValidMoves \= [] ->
+        findall(Value-Mv, (
+            member(Mv, ValidMoves),
+            move([Board,Player], Mv, NewState),
+            value(NewState, Player, Value)
+        ), Moves),
+        keysort(Moves, [Test-Move | Rest]);
+        findall(Value-(XCur, YCur, -1, -1), (
+            get_cell(Board, XCur, YCur, Player),
+            move([Board,Player], (XCur, YCur, -1, -1), NewState),
+            value(NewState, Player, Value)
+        ), Moves),
+        keysort(Moves, [Test-Move | Rest])
+    ).
 
-value([Board, Player], Player, Value):-
-    write('there'), nl,
+value([Board, OtherPlayer], Player, Value):-
     findall((X, Y), get_cell(Board, X, Y, Player), Checkers),
-    write('here'), nl,
     length(Checkers, Size),
-    write(Size), nl,
     count_groups([Board, Player], Checkers, Count),
-    write(Count), nl,
     biggest_group([Board, Player], Checkers, 0, Max),
-    write(Max), nl,
     smallest_group([Board, Player], Checkers, Size, Min),
-    write(Min), nl,
     /*maybe add more conditions*/
-    value is Count + Size-Max + Size-Min.
+    Value is Count + Size-Max + Size-Min.
 
 game_over([Board, Player], Winner):- 
     next_player(Player, PreviousPlayer),
@@ -77,4 +81,4 @@ print_player([_,Player]):-
     atom_concat('PLAYER TURN: ', Player, Print),
     write(Print),
     write(' ->'),
-    display_cell(Player).
+    display_cell(Player), nl.

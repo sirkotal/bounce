@@ -1,9 +1,8 @@
-
 initial_state([
         [empty, blue, red, blue, red, blue, red, empty],
         [blue, red, blue, red, blue, red, blue, red],
         [red, blue, red, blue, red, blue, red, blue],
-        [blue, red, red, red, blue, red, blue, red],
+        [blue, red, blue, red, blue, red, blue, red],
         [red, blue, red, blue, red, blue, red, blue],
         [blue, red, blue, red, blue, red, blue, red],
         [red, blue, red, blue, red, blue, red, blue],
@@ -11,14 +10,14 @@ initial_state([
 ]).
 
 /*initial_state([
-        [empty, red, red, blue, blue, blue, blue, empty],
-        [red, red, red, blue, blue, blue, blue, blue],
-        [red, red, red, blue, blue, blue, blue, blue],
+        [blue, red, red, blue, blue, blue, blue, empty],
+        [red, red, red, blue, blue, empty, empty, blue],
+        [red, red, red, blue, blue, blue, blue, red],
         [red, red, red, red, blue, blue, blue, blue],
         [red, blue, red, red, blue, blue, red, blue],
         [red, red, red, red, red, red, red, blue],
         [red, red, red, blue, red, blue, red, blue],
-        [empty, red, blue, blue, blue, blue, red, empty]
+        [blue, red, blue, blue, blue, blue, blue, empty]
 ]).*/
 
 display_game([Board,_]) :- 

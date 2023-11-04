@@ -56,16 +56,7 @@ version(1) :-
     write('mode 1'), nl.
 
 version(2) :- 
-    write('----- BOT -----'), nl,
-    write(''), nl,
-    write('1 - RANDOM'), nl,
-    write(''), nl,
-    write('2 - GREEDY'), nl,
-    write(''), nl,
-    repeat,
-    write('INSERT AN OPTION'), nl,
-    read(X),
-    ((X = 1 ; X = 2) -> assert(bot(blue,X)), !; (write('WRONG OPTION, PLEASE ENTER ANOTHER ONE'), nl, fail)).
+    choose_difficulty(blue).
 
 version(3) :-
     choose_difficulty(red),

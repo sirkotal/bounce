@@ -112,14 +112,12 @@ count_adjacents(Position_row, Position_column, Board, Color, Total, InitialVisit
     Total is TotalAbove + TotalBelow + TotalLeft + TotalRight + 1,
     EndVisited = EndVisitedAbove.
 
-count_groups(_, [], _).
+count_groups(_, [], 0).
 count_groups([Board, Player], [(XCur, YCur)|Rest], Count):-
-    write('here'),
     count_adjacents(XCur, YCur, Board, Player, Total, [], Visited),
     subtract(Rest, Visited, NewRest),
-    print_array(NewRest),
     count_groups([Board, Player], NewRest, NewCount),
-    Count is NewCount + 1,
+    Count is NewCount + 1.
 
 biggest_group(_, [], Count, Count).
 biggest_group([Board, Player], [(XCur, YCur)|Rest], Count, Max):-

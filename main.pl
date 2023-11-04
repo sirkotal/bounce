@@ -12,16 +12,19 @@
 game_cycle(GameState):-
     game_over(GameState, Winner), !,
     display_game(GameState),
-    congratulate(Winner). 
+    congratulate(Winner)
+    . 
 
 game_cycle(GameState):-
     display_game(GameState),
     print_player(GameState),
     choose_move(GameState, Move),
+    (XCur, YCur, XNext, YNext) = Move,
     move(GameState, Move, NewGameState),
     game_cycle(NewGameState).
 
 play:-
     show_menu,
     initial_state(Board),
-    game_cycle([Board, red]).
+    game_cycle([Board, red]),
+    clear_data.
