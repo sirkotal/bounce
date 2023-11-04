@@ -125,9 +125,16 @@ The internal representation of the game's state is a structure composed of:
 
 ### Computer Plays
 
+## Conclusions
+
+We managed to successfully implement Bounce in SICStus Prolog 4.8.0 so that the game is playable in three different modes: *Player vs Player*, *Player vs CPU* and *CPU vs CPU*. The CPU also possesses two completely distinct difficulty levels.
+
 ## Bibliography
 
 - <https://www.marksteeregames.com/Bounce_rules.pdf>
 - <https://www.swi-prolog.org/>
 - <https://stackoverflow.com/>
 - <https://eclipseclp.org/doc/bips/index.html>
+- <https://sicstus.sics.se/sicstus/docs/4.3.1/html/sicstus/The-Prolog-Library.html#The-Prolog-Library>
+- <https://www.tutorialspoint.com/prolog/index.htm>
+- <https://swish.swi-prolog.org/>
