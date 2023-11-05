@@ -28,12 +28,12 @@ initial_state([
 display_game([Board,_]) :- 
         write('     1  2  3  4  5  6  7  8'), nl,
         write('    ________________________'), nl, nl,
-        display_rows(Board, 1, 10),
+        display_rows(Board, 1),
         write('    ________________________'), nl, nl.
 
 /* display_rows(+Board, +Line)
    Displays every row in the board */
-display_rows([], _, _).
+display_rows([], _).
 display_rows([Row | Rest], Line) :-
     format('~d | ', [Line]),
     display_row(Row),
