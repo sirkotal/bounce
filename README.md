@@ -115,9 +115,8 @@ The internal representation of the game's state is a structure composed of:
 
 ### Game State Visualization
 
-We utilize the `display_game/1` predicate to display the current state of the game by printing the board's contents.
-
-(to be continued...)
+We utilize the `display_game/1` predicate to display the current state of the game by printing the board's contents, while the board's initial structure itself is the responsability of the `initial_state/2` predicate.
+There is also a `show_menu/0` predicate that is responsible for the main menu's visualization and an `option/1` predicate that is in charge of displaying the game's submenus.
 
 ### Move Validation and Execution
 
