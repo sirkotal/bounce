@@ -1,43 +1,26 @@
-:- use_module(library(lists)).
-:- use_module(library(random)).
-
-
 :- consult('src/board').
-:- consult('src/database').
 :- consult('src/logic').
-:- consult('src/utils').
 :- consult('src/menu').
-:- consult('src/cpu').
 
-test:- 
-    test_board(Board),
-    display_board(Board),
-    bot_move(Board, 2, red, NewBoard),
-    display_board(NewBoard).
-
-game_cycle(Board, Player):-
-    game_over(Board, Player, Winner), !,
+/* game_cycle(+GameState)
+   Keeps the game (loop) running */
+game_cycle(GameState):-
+    game_over(GameState, Winner), !,
+    display_game(GameState),
     congratulate(Winner). 
+ 
+game_cycle(GameState):-
+    display_game(GameState),
+    print_player(GameState),
+    choose_move(GameState, Move),
+    move(GameState, Move, NewGameState),
+    game_cycle(NewGameState).
 
-game_cycle(Board, Player):-
-    write(Player),nl,
-    bot_move(Board, 2, Player, NewBoard),!,
-    display_board(NewBoard), !,
-    next_player(Player, NextPlayer),  
-    game_cycle(NewBoard, NextPlayer).
-    /*
-    atom_concat('PLAYER TURN: ', Player, Print),
-    write(Print), nl,
-    choose_move(Board, Player, NextBoard),
-    next_player(Player, NextPlayer),
-    display_board(NextBoard), !,    
-    game_cycle(NextBoard, NextPlayer).*/
-
+/* play/0 
+   Starts the game and clears its data when it ends */
 play:-
     show_menu,
-    initialize_board(Board),
-    display_board(Board),
-    count_checkers(Board, red, RedCount), write('Number of red checkers: '), write(RedCount), nl,
-    game_cycle(Board, red).
-
-/*play :- display_game, choose_difficulty(x).*/
+    /*change here*/
+    initial_state(Board),
+    game_cycle([Board, red]),
+    clear_data.
