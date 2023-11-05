@@ -124,8 +124,7 @@ The move execution is handled by the `move/3` predicate, which is responsible fo
 
 The validation of the proposed move is performed by the `choose_move/2` predicate.
 If the current player is the CPU, it calls the `choose_move/4` predicate, which is tasked with listing all of the CPU's valid moves and choosing the appropriate one based on its difficulty.
-If the current player is a user, the predicate first lists all valid moves available to him and then checks if there are any available. In case there aren't any, the user is asked to remove a checker of his choosing; otherwise, it asks the user for the position of the checker he wants to move and where he wants to place it - if the move is not valid, however, the predicate fails.
-The move is then passed to the `move/3` predicate, which executes it as previously mentioned.
+If the current player is a user, the predicate first lists all valid moves available to him and then checks if there are any available. In case there aren't any, the user is asked to remove a checker of his choosing; otherwise, it asks the user for the position of the checker he wants to move and where he wants to place it - if the move is not valid, however, the predicate will ask the user to choose a different set of values. The move is then passed to the `move/3` predicate, which executes it as previously mentioned.
 
 ### List of Valid Moves
 
