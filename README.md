@@ -115,6 +115,10 @@ The internal representation of the game's state is a structure composed of:
 
 ### Game State Visualization
 
+We utilize the `display_game/1` predicate to display the current state of the game by printing the board's contents.
+
+(to be continued...)
+
 ### Move Validation and Execution
 
 The move execution is handled by the `move/3` predicate, which is responsible for either performing a valid move or removing a checker from the board in case there are no valid moves available. In any case, a new game state is obtained.
@@ -126,7 +130,8 @@ The move is then passed to the `move/3` predicate, which executes it as previous
 
 ### List of Valid Moves
 
-Like previously mentioned, a valid move is...
+As previously mentioned, a move is valid when the checker you move is part of a larger group than it was before the move itself.
+A list of valid moves is obtained by the `valid_moves/2` predicate, which searches for and lists every `(Current_X, Current_Y, Next_X, Next_Y)` group where the current position contains a checker, the next position is empty and the group containing the checker to be moved after the move has occured is larger than the one where the checker was inserted prior to the move's execution.
 
 ### End of Game
 
@@ -170,6 +175,10 @@ In both difficulty levels, the CPU makes use of the `valid_moves/3` predicate, w
 ## Conclusions
 
 We managed to successfully implement Bounce in SICStus Prolog 4.8.0 so that the game is playable in three different modes: *Player vs Player*, *Player vs CPU* and *CPU vs CPU*. The CPU also possesses two completely distinct difficulty levels.
+
+One of the main issues we faced while developing this project was the amount of time it took to implement certain game features in Prolog that would be much faster to implement in languages that are more suitable to this kind of project.
+
+We would have liked to have spent more time working on the CPU opponent, developing a more advanced algorithm that would allow for more challenging matches against it. We also wanted to put some more work into the main menu, making it more visually appealing.
 
 ## Bibliography
 
