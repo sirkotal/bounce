@@ -1,3 +1,7 @@
+:- consult('database').
+
+/* show_menu/0
+   Displays the game's main menu */
 show_menu :-
     write('----- BOUNCE -----'), nl,
     write(''), nl,
@@ -7,17 +11,28 @@ show_menu :-
     write(''), nl,
     write('3 - EXIT'), nl,
     write(''), nl,
-    read_menu(_X).
+    read_menu.
 
-read_menu(X) :- 
+/* read_menu/0 
+   Receives the user's input in the main menu */
+read_menu :- 
     repeat,
     write('INSERT AN OPTION'), nl,
     read(X),
     ((X = 1 ; X = 2 ; X = 3) -> option(X), !; (write('WRONG OPTION, PLEASE ENTER ANOTHER ONE'), nl, fail)).
 
+/* option(+Option)
+   Displays the different options based on the user's input */
 option(1) :- 
-    write('--GAME--'), nl,
-    write(''), nl.
+    write('----- MODE -----'), nl,
+    write(''), nl,
+    write('1 - HUMAN VS HUMAN'), nl,
+    write(''), nl,
+    write('2 - HUMAN VS BOT'), nl,
+    write(''), nl,
+    write('3 - BOT VS BOT'), nl,
+    write(''), nl,
+    read_mode.
 
 option(2) :- 
     write('INTRODUCTION: Bounce is a two-player game played on a square board of any even size. The board is initially filled with a checkerboard pattern of red and blue checkers, except the corner squares, which are unoccupied. Mark Steere designed Bounce in August 2023.'), nl,
@@ -33,8 +48,34 @@ option(2) :-
     write('CHECKER REMOVAL: If you don\'t have any legal moves availableon your turn, you must instead remove any one of your checkers from the board, concluding your turn'), nl,
     repeat,
     write(''), nl,
-    write('INSERT 1 TO GO BACK TO MENU'), nl,
-    read(Y),
-    ((Y = 1) -> show_menu, read_menu(_) ; (write('WRONG OPTION, PLEASE ENTER 1 TO GO BACK'), nl, fail)).
+    write('INSERT ANYTHING TO GO BACK TO MENU'), nl,
+    read(Flag),
+    show_menu.
 
 option(3) :- halt(0).
+
+/* read_mode/0
+   Receives the user's regarding the game mode */
+read_mode :- 
+    repeat,
+    write('INSERT AN OPTION'), nl,
+    read(X),
+    ((X = 1 ; X = 2 ; X = 3) -> version(X), !; (write('WRONG OPTION, PLEASE ENTER ANOTHER ONE'), nl, fail)).
+
+/* version(+Mode)
+   Handles the user input by setting the game to the specified mode */
+version(1) :- 
+    choose_name(1, red),
+    choose_icon(1, red),
+    choose_name(2, blue),
+    choose_icon(2, blue).
+
+version(2) :- 
+    choose_name(1, red),
+    choose_icon(1, red),
+    choose_difficulty(blue).
+
+version(3) :-
+    choose_difficulty(red),
+    choose_difficulty(blue).
+    
