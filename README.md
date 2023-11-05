@@ -4,8 +4,8 @@
 
 ### Developed by:
 
-- João Pedro Rodrigues Coutinho (up202108787)
-- Miguel Jorge Medeiros Garrido (up202108889)
+- João Pedro Rodrigues Coutinho , up202108787 (50%)
+- Miguel Jorge Medeiros Garrido, up202108889 (50%)
 
 ## Instalation and Execution
 
@@ -121,9 +121,42 @@ The internal representation of the game's state is a structure composed of:
 
 ### End of Game
 
+The `game_cycle/1` predicate is responsible for checking if a game is over. The predicate is ready to handle two situations: one where the game continues as normal and another where one player has reached the win condition.
+
+`game_cycle/1` first verifies if the condition for a "Game Over" is met, via the `game_over/2` predicate; if successful, the `game_cycle/1` execution will stop immediately and display a congratulatory message for the winner. This means it won't proceed to the second clause, ending the game.
+
+If this check fails, it means the game is still ongoing - the execution will move to the second clause.
+
+```prolog
+game_cycle(GameState):-
+    game_over(GameState, Winner), !,
+    display_game(GameState),
+    congratulate(Winner). 
+ 
+game_cycle(GameState):-
+    display_game(GameState),
+    print_player(GameState),
+    choose_move(GameState, Move),
+    move(GameState, Move, NewGameState),
+    game_cycle(NewGameState).
+```
+
 ### Game State Evaluation
 
+The state of the game is evaluated through the use of the `value/3` predicate, which is used to calculate how advantageous the game state is for the player - the higher the value, the better.
+
+`value/3` works in the following way:
+
+(to be continued...)
+
 ### Computer Plays
+
+We managed to implement two distinct difficulty levels for the CPU opponent, using the `choose_move/3` predicate:
+
+- The **Level 1** CPU opponent randomly selects a move from a list of valid moves available to him. If there is no valid move available to the CPU, he will randomly remove one of his checkers from the board.
+- The **Level 2** CPU opponent utilizes a greedy strategy (to be continued...)
+
+In both difficulty levels, the CPU makes use of the `valid_moves/3` predicate, which retrieves all valid moves available to a player.
 
 ## Conclusions
 
