@@ -1,3 +1,7 @@
+:- consult('database').
+
+/* show_menu/0
+   Displays the game's main menu */
 show_menu :-
     write('----- BOUNCE -----'), nl,
     write(''), nl,
@@ -9,12 +13,16 @@ show_menu :-
     write(''), nl,
     read_menu.
 
+/* read_menu/0 
+   Receives the user's input in the main menu */
 read_menu :- 
     repeat,
     write('INSERT AN OPTION'), nl,
     read(X),
     ((X = 1 ; X = 2 ; X = 3) -> option(X), !; (write('WRONG OPTION, PLEASE ENTER ANOTHER ONE'), nl, fail)).
 
+/* option(+Option)
+   Displays the different options based on the user's input */
 option(1) :- 
     write('----- MODE -----'), nl,
     write(''), nl,
@@ -46,18 +54,28 @@ option(2) :-
 
 option(3) :- halt(0).
 
+/* read_mode/0
+   Receives the user's regarding the game mode */
 read_mode :- 
     repeat,
     write('INSERT AN OPTION'), nl,
     read(X),
     ((X = 1 ; X = 2 ; X = 3) -> version(X), !; (write('WRONG OPTION, PLEASE ENTER ANOTHER ONE'), nl, fail)).
 
+/* version(+Mode)
+   Handles the user input by setting the game to the specified mode */
 version(1) :- 
-    write('mode 1'), nl.
+    choose_name(1, red),
+    choose_icon(1, red),
+    choose_name(2, blue),
+    choose_icon(2, blue).
 
 version(2) :- 
+    choose_name(1, red),
+    choose_icon(1, red),
     choose_difficulty(blue).
 
 version(3) :-
     choose_difficulty(red),
     choose_difficulty(blue).
+    

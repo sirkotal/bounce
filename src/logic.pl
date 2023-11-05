@@ -1,6 +1,13 @@
+:- consult('database').
+:- consult('cpu').
+:- consult('utils').
+
+:- use_module(library(random)).
 :- use_module(library(lists)).
 :- use_module(library(sets)).
 
+/* move(+GameState, +Move, -NewGameState)
+   Execute the move chosen (move/remove a checker)*/
 move([Board, Player], (XCur, YCur, -1, -1), NewGameState) :-
     remove_checker(Board, XCur, YCur, NewBoard),
     next_player(Player, NextPlayer),
@@ -12,6 +19,8 @@ move([Board, Player], (XCur, YCur, XNext, YNext), NewGameState) :-
     next_player(Player, NextPlayer),
     NewGameState = [NewBoard, NextPlayer].
 
+/* choose_move(+GameState, -Move)
+   Verifies if the player is a Human and reads a valid move*/
 choose_move([Board,Player], Move):-
     (bot(Player, Bot) ->
         choose_move([Board ,Player], Player, Bot, Move);   
@@ -30,14 +39,17 @@ choose_move([Board,Player], Move):-
             read_move(YNext, 'NEW COLUMN'),
             (memberchk((XCur, YCur, XNext, YNext), ValidMoves) -> Move = (XCur, YCur, XNext, YNext); write(''), nl, write('THAT MOVE IS NOT VALID!'), nl, fail))).
 
+/* choose_move(+GameState, +Player, +Level, -Move)
+   Makes a list of valid moves and chooses one randomly*/
 choose_move([Board,Player], Player, 1, Move):-
-    write('here'),
     valid_moves([Board,Player], Player, ValidMoves),
     (ValidMoves \= [] ->
         bot_random_move(Board, ValidMoves, Move);
         bot_random_remove(Board, Player, Move)
     ).
 
+/* choose_move(+GameState, +Player, +Level, -Move)
+   Makes a list of valid moves and chooses the one with less points based on an evaluation of the game state made on value(+GameState, +Player, -Value)*/
 choose_move([Board,Player], Player, 2, Move):-
     valid_moves([Board,Player], Player, ValidMoves),
     (ValidMoves \= [] ->
@@ -55,6 +67,8 @@ choose_move([Board,Player], Player, 2, Move):-
         keysort(Moves, [Test-Move | Rest])
     ).
 
+/* value(+GameState, +Player, -Value)
+   Calculates the value of the current board*/
 value([Board, OtherPlayer], Player, Value):-
     findall((X, Y), get_cell(Board, X, Y, Player), Checkers),
     length(Checkers, Size),
@@ -64,21 +78,30 @@ value([Board, OtherPlayer], Player, Value):-
     /*maybe add more conditions*/
     Value is Count + Size-Max + Size-Min.
 
+/*  game_over(+GameState, -Winner)
+    Checks if the game has a winner */
 game_over([Board, Player], Winner):- 
     next_player(Player, PreviousPlayer),
     get_cell(Board, X, Y, PreviousPlayer), !, 
     count_adjacents(X, Y, Board, PreviousPlayer, Total, [], _Visited),
-    count_checkers(Board, PreviousPlayer, Count),
+    findall((XCur, YCur), get_cell(Board, XCur, YCur, PreviousPlayer), Checkers),
+    length(Checkers, Count),
     (Total = Count -> Winner = PreviousPlayer; fail).
 
+/*  congratulate(+Winner)
+    Congratulates the winner */
 congratulate(Winner):-
     write(''),nl,
-    atom_concat('OH MY F*CKING GOD congratulation for winning this game ', Winner, Print),
+    player_name(Winner, Name),
+    atom_concat('CONGRATULATIONS ', Name, Print),
     write(Print),
-    write(', imagine playing this tho...').
+    write(', YOU ARE THE WINNER').
 
+/*  print_player(+GameState)
+    Prints the player that is currently playing */
 print_player([_,Player]):-
-    atom_concat('PLAYER TURN: ', Player, Print),
+    player_name(Player, Name),
+    atom_concat('PLAYER TURN: ', Name, Print),
     write(Print),
     write(' ->'),
-    display_cell(Player), nl.
+    display_cell(Player), nl, nl.
