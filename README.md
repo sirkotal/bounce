@@ -173,7 +173,7 @@ We managed to successfully implement Bounce in SICStus Prolog 4.8.0 so that the 
 
 One of the main issues we faced while developing this project was the amount of time it took to implement certain game features in Prolog that would be much faster to implement in languages that are more suitable to this kind of project.
 
-We would have liked to have spent more time working on the CPU opponent, developing a more advanced algorithm that would allow for more challenging matches against it. We also wanted to put some more work into the main menu, making it more visually appealing.
+In the future, we would like to spend more time working on the CPU opponent, developing an even more advanced algorithm, and on the game's UI.
 
 ## Bibliography
 
