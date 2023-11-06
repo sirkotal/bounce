@@ -34,7 +34,7 @@ create_row(N, PartialRow, Row, Color) :-
     N1 is N - 1,
     create_row(N1, [Color | PartialRow], Row, NextColor).
 
-/* create_row(+Color, -NextColor)
+/* next_color(+Color, -NextColor)
    Switches the color */
 next_color(Color, NextColor):-
     (Color = red -> NextColor = blue; NextColor = red).
