@@ -170,7 +170,7 @@ valid_moves([Board, Player], Player, ValidMoves) :-
         get_cell(Board, XNext, YNext, empty),
         count_adjacents(XCur, YCur, Board, Player, BeforeTotal, [], _BeforeVisited),
         move([Board, Player], (XCur, YCur, XNext, YNext), TemporaryGameState),
-        [TemporaryBoard, NewPlayer] = TemporaryGameState,
+        [TemporaryBoard, _NewPlayer] = TemporaryGameState,
         count_adjacents(XNext, YNext, TemporaryBoard, Player, AfterTotal, [], _AfterVisited),
         AfterTotal > BeforeTotal
     ), ValidMoves).
@@ -190,7 +190,9 @@ If this check fails, it means the game is still ongoing - the execution will mov
 game_cycle(GameState):-
     game_over(GameState, Winner), !,
     display_game(GameState),
-    congratulate(Winner). 
+    congratulate(Winner),
+    clear_data,
+    play. 
  
 game_cycle(GameState):-
     display_game(GameState),
@@ -208,7 +210,7 @@ The state of the game is evaluated through the use of the `value/3` predicate, w
 ```prolog
 /* value(+GameState, +Player, -Value)
    Calculates the value of the current board*/
-value([Board, OtherPlayer], Player, Value):-
+value([Board, _], Player, Value):-
     findall((X, Y), get_cell(Board, X, Y, Player), Checkers),
     length(Checkers, Size),
     count_groups([Board, Player], Checkers, Count),
@@ -232,7 +234,7 @@ In both difficulty levels, the CPU makes use of the `valid_moves/3` predicate, w
 choose_move([Board,Player], Player, 1, Move):-
     valid_moves([Board,Player], Player, ValidMoves),
     (ValidMoves \= [] ->
-        bot_random_move(Board, ValidMoves, Move);
+        bot_random_move(ValidMoves, Move);
         bot_random_remove(Board, Player, Move)
     ).
 
