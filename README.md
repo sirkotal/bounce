@@ -214,7 +214,6 @@ value([Board, OtherPlayer], Player, Value):-
     count_groups([Board, Player], Checkers, Count),
     biggest_group([Board, Player], Checkers, 0, Max),
     smallest_group([Board, Player], Checkers, Size, Min),
-    /*maybe add more conditions*/
     Value is 1000*Count + 10*(Size-Max) + Size-Min.
 ```
 
