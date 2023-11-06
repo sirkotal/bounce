@@ -56,7 +56,7 @@ choose_icon(Number, Player) :-
     read_line(Input),
     char_codes_to_chars(Input, String),
     length(String, Len),
-    [Char|Rest] = String,
+    [Char|_Rest] = String,
     ((Len > 1 ; player_icon(red, X), X = Char; player_icon(blue, Y), Y = Char) -> nl, write('THAT ICON ISN\'T VALID, PLEASE ENTER ANOTHER ONE'), nl, fail; assert(player_icon(Player, Char)), !).
 
 /* clear_data/0
@@ -64,5 +64,5 @@ choose_icon(Number, Player) :-
 clear_data :-
     retractall(bot(_,_)),
     retractall(player_name(_,_)),
-    retractall(player_icon(_,_)).
+    retractall(player_icon(_,_)),
     retractall(size_board(_)).

@@ -59,10 +59,9 @@ option(2) :-
     write('The checker you move must be part of a larger group after your move than it was before your move. '), nl,
     write(''), nl,
     write('CHECKER REMOVAL: If you don\'t have any legal moves availableon your turn, you must instead remove any one of your checkers from the board, concluding your turn'), nl,
-    repeat,
     write(''), nl,
     write('INSERT ANYTHING TO GO BACK TO MENU'), nl,
-    read(Flag),
+    read(_),
     show_menu.
 
 option(3) :- halt(0).

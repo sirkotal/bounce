@@ -43,6 +43,7 @@ next_color(Color, NextColor):-
    Displays the current state of the game */
 display_game([Board,_]) :- 
         size_board(N),
+        write('\33\[2J'),
         write(''), nl,
         write('      '), header(N, 1), nl,
         N1 is N*3,

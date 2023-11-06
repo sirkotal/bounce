@@ -1,13 +1,15 @@
-:- consult('src/board').
-:- consult('src/logic').
-:- consult('src/menu').
+:- consult('board').
+:- consult('logic').
+:- consult('menu').
 
 /* game_cycle(+GameState)
    Keeps the game (loop) running */
 game_cycle(GameState):-
     game_over(GameState, Winner), !,
     display_game(GameState),
-    congratulate(Winner). 
+    congratulate(Winner),
+    clear_data,
+    play. 
  
 game_cycle(GameState):-
     display_game(GameState),
@@ -22,5 +24,4 @@ play:-
     show_menu,
     size_board(Size),
     initial_state(Size,GameState),
-    game_cycle(GameState),
-    clear_data.
+    game_cycle(GameState).

@@ -43,7 +43,7 @@ choose_move([Board,Player], Move):-
 choose_move([Board,Player], Player, 1, Move):-
     valid_moves([Board,Player], Player, ValidMoves),
     (ValidMoves \= [] ->
-        bot_random_move(Board, ValidMoves, Move);
+        bot_random_move(ValidMoves, Move);
         bot_random_remove(Board, Player, Move)
     ).
 
@@ -68,7 +68,7 @@ choose_move([Board,Player], Player, 2, Move):-
 
 /* value(+GameState, +Player, -Value)
    Calculates the value of the current board*/
-value([Board, OtherPlayer], Player, Value):-
+value([Board, _], Player, Value):-
     findall((X, Y), get_cell(Board, X, Y, Player), Checkers),
     length(Checkers, Size),
     count_groups([Board, Player], Checkers, Count),
@@ -93,7 +93,10 @@ congratulate(Winner):-
     player_name(Winner, Name),
     atom_concat('CONGRATULATIONS ', Name, Print),
     write(Print),
-    write(', YOU ARE THE WINNER!').
+    write(', YOU ARE THE WINNER!'), nl,
+    write(''), nl,
+    write('INSERT ANYTHING TO GO BACK TO MENU'), nl,
+    read(_).
 
 /*  print_player(+GameState)
     Prints the player that is currently playing */

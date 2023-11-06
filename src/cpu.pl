@@ -1,9 +1,9 @@
 :- use_module(library(lists)).
 :- use_module(library(random)).
 
-/* bot_random_move(+Board, +ValidMoves, -Move)
+/* bot_random_move(+ValidMoves, -Move)
    Allows the level 1 CPU player to select a valid move */
-bot_random_move(Board, ValidMoves, Move) :-
+bot_random_move(ValidMoves, Move) :-
     length(ValidMoves, N),
     random(0, N, Index),
     nth0(Index, ValidMoves, (XCur, YCur, XNext, YNext)),

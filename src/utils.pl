@@ -52,7 +52,7 @@ valid_moves([Board, Player], Player, ValidMoves) :-
         get_cell(Board, XNext, YNext, empty),
         count_adjacents(XCur, YCur, Board, Player, BeforeTotal, [], _BeforeVisited),
         move([Board, Player], (XCur, YCur, XNext, YNext), TemporaryGameState),
-        [TemporaryBoard, NewPlayer] = TemporaryGameState,
+        [TemporaryBoard, _NewPlayer] = TemporaryGameState,
         count_adjacents(XNext, YNext, TemporaryBoard, Player, AfterTotal, [], _AfterVisited),
         AfterTotal > BeforeTotal
     ), ValidMoves).
@@ -102,7 +102,7 @@ count_adjacents(Position_row, Position_column, Board, Color, Total, InitialVisit
    Counts the number of groups of a specific checker */
 count_groups(_, [], 0).
 count_groups([Board, Player], [(XCur, YCur)|Rest], Count):-
-    count_adjacents(XCur, YCur, Board, Player, Total, [], Visited),
+    count_adjacents(XCur, YCur, Board, Player, _Total, [], Visited),
     subtract(Rest, Visited, NewRest),
     count_groups([Board, Player], NewRest, NewCount),
     Count is NewCount + 1.
