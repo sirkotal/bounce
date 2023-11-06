@@ -129,6 +129,10 @@ The internal representation of the game's state is a structure composed of:
 We utilize the `display_game/1` predicate to display the current state of the game by printing the board's contents, while the board's initial structure itself is the responsability of the `initial_state/2` predicate.
 There is also a `show_menu/0` predicate that is responsible for the main menu's visualization and an `option/1` predicate that is in charge of displaying the game's submenus.
 
+<p align="center">
+  <img src="images/figure_7.png" alt="menu">
+</p>
+
 ### Move Validation and Execution
 
 The move execution is handled by the `move/3` predicate, which is responsible for either performing a valid move or removing a checker from the board in case there are no valid moves available. In any case, a new game state is obtained.
@@ -137,10 +141,40 @@ The validation of the proposed move is performed by the `choose_move/2` predicat
 If the current player is the CPU, it calls the `choose_move/4` predicate, which is tasked with listing all of the CPU's valid moves and choosing the appropriate one based on its difficulty.
 If the current player is a user, the predicate first lists all valid moves available to him and then checks if there are any available. In case there aren't any, the user is asked to remove a checker of his choosing; otherwise, it asks the user for the position of the checker he wants to move and where he wants to place it - if the move is not valid, however, the predicate will ask the user to choose a different set of values. The move is then passed to the `move/3` predicate, which executes it as previously mentioned.
 
+```prolog
+/* move(+GameState, +Move, -NewGameState)
+   Execute the move chosen (move/remove a checker)*/
+move([Board, Player], (XCur, YCur, -1, -1), NewGameState) :-
+    remove_checker(Board, XCur, YCur, NewBoard),
+    next_player(Player, NextPlayer),
+    NewGameState = [NewBoard, NextPlayer].
+
+move([Board, Player], (XCur, YCur, XNext, YNext), NewGameState) :-
+    remove_checker(Board, XCur, YCur, TempBoard),
+    place_checker(TempBoard, XNext, YNext, Player, NewBoard),
+    next_player(Player, NextPlayer),
+    NewGameState = [NewBoard, NextPlayer].
+```
+
 ### List of Valid Moves
 
 As previously mentioned, a move is valid when the checker you move is part of a larger group than it was before the move itself.
 A list of valid moves is obtained by the `valid_moves/2` predicate, which searches for and lists every `(Current_X, Current_Y, Next_X, Next_Y)` group where the current position contains a checker, the next position is empty and the group containing the checker to be moved after the move has occured is larger than the one where the checker was inserted prior to the move's execution.
+
+```prolog
+/* valid_moves(+GameState, +Player, -ValidMoves)
+   Retrieves all the valid moves available to a player */
+valid_moves([Board, Player], Player, ValidMoves) :-
+    findall((XCur, YCur, XNext, YNext), (
+        get_cell(Board, XCur, YCur, Player),
+        get_cell(Board, XNext, YNext, empty),
+        count_adjacents(XCur, YCur, Board, Player, BeforeTotal, [], _BeforeVisited),
+        move([Board, Player], (XCur, YCur, XNext, YNext), TemporaryGameState),
+        [TemporaryBoard, NewPlayer] = TemporaryGameState,
+        count_adjacents(XNext, YNext, TemporaryBoard, Player, AfterTotal, [], _AfterVisited),
+        AfterTotal > BeforeTotal
+    ), ValidMoves).
+```
 
 ### End of Game
 
@@ -151,6 +185,8 @@ The `game_cycle/1` predicate is responsible for checking if a game is over. The 
 If this check fails, it means the game is still ongoing - the execution will move to the second clause.
 
 ```prolog
+/* game_cycle(+GameState)
+   Keeps the game (loop) running */
 game_cycle(GameState):-
     game_over(GameState, Winner), !,
     display_game(GameState),
@@ -169,6 +205,19 @@ game_cycle(GameState):-
 The state of the game is evaluated through the use of the `value/3` predicate, which is used to calculate how advantageous the game state is for the player - the lower the value, the better.
 `value/3` prioritizes the number of groups - the less the better, since the main objective is to have just one group - and we count them using `count_groups/3`. Since many moves would have the same score if we only used this predicate, they are graded based on how big they are by using `biggest_group/4` and `smallest_group/4`. Less points are given to larger groups, because having a bigger group means a player is closer to winning, and more points to smaller groups, as having a small group can make it harder to link it to the others.
 
+```prolog
+/* value(+GameState, +Player, -Value)
+   Calculates the value of the current board*/
+value([Board, OtherPlayer], Player, Value):-
+    findall((X, Y), get_cell(Board, X, Y, Player), Checkers),
+    length(Checkers, Size),
+    count_groups([Board, Player], Checkers, Count),
+    biggest_group([Board, Player], Checkers, 0, Max),
+    smallest_group([Board, Player], Checkers, Size, Min),
+    /*maybe add more conditions*/
+    Value is 1000*Count + 10*(Size-Max) + Size-Min.
+```
+
 ### Computer Plays
 
 We managed to implement two distinct difficulty levels for the CPU opponent, using the `choose_move/3` predicate:
@@ -177,6 +226,36 @@ We managed to implement two distinct difficulty levels for the CPU opponent, usi
 - The **Level 2** CPU opponent utilizes a greedy strategy. It iterates through all valid moves, calculating the value of the board after each move using `value/3`. These value-move pairs are stored in a list, which is then sorted in ascending order based on the values. Finally, the CPU selects the move with the lowest value, as it represents the current best move.
 
 In both difficulty levels, the CPU makes use of the `valid_moves/3` predicate, which retrieves all valid moves available to a player.
+
+```prolog
+/* choose_move(+GameState, +Player, +Level, -Move)
+   Makes a list of valid moves and chooses one randomly*/
+choose_move([Board,Player], Player, 1, Move):-
+    valid_moves([Board,Player], Player, ValidMoves),
+    (ValidMoves \= [] ->
+        bot_random_move(Board, ValidMoves, Move);
+        bot_random_remove(Board, Player, Move)
+    ).
+
+/* choose_move(+GameState, +Player, +Level, -Move)
+   Makes a list of valid moves and chooses the one with less points based on an evaluation of the game state made on value(+GameState, +Player, -Value)*/
+choose_move([Board,Player], Player, 2, Move):-
+    valid_moves([Board,Player], Player, ValidMoves),
+    (ValidMoves \= [] ->
+        findall(Value-Mv, (
+            member(Mv, ValidMoves),
+            move([Board,Player], Mv, NewState),
+            value(NewState, Player, Value)
+        ), Moves),
+        keysort(Moves, [Test-Move | Rest]);
+        findall(Value-(XCur, YCur, -1, -1), (
+            get_cell(Board, XCur, YCur, Player),
+            move([Board,Player], (XCur, YCur, -1, -1), NewState),
+            value(NewState, Player, Value)
+        ), Moves),
+        keysort(Moves, [Test-Move | Rest])
+    ).
+```
 
 ## Conclusions
 
