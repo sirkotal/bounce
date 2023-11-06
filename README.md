@@ -56,6 +56,8 @@ The internal representation of the game's state is a structure composed of:
 - ***Board*** → a NxN matrix, where N is an even integer; each cell of the matrix can be either `O` (red), `X` (blue) or `-` (empty)
 - ***Player*** → represents the current player, which is either `red` or `blue`
 
+
+
 **Initial State**:
 
 ```prolog
@@ -160,6 +162,8 @@ move([Board, Player], (XCur, YCur, XNext, YNext), NewGameState) :-
 
 As previously mentioned, a move is valid when the checker you move is part of a larger group than it was before the move itself.
 A list of valid moves is obtained by the `valid_moves/2` predicate, which searches for and lists every `(Current_X, Current_Y, Next_X, Next_Y)` group where the current position contains a checker, the next position is empty and the group containing the checker to be moved after the move has occured is larger than the one where the checker was inserted prior to the move's execution.
+
+
 
 ```prolog
 /* valid_moves(+GameState, +Player, -ValidMoves)
