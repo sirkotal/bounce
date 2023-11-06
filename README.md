@@ -169,11 +169,11 @@ In both difficulty levels, the CPU makes use of the `valid_moves/3` predicate, w
 
 ## Conclusions
 
-We managed to successfully implement Bounce in SICStus Prolog 4.8.0 so that the game is playable in three different modes: *Player vs Player*, *Player vs CPU* and *CPU vs CPU*. The CPU also possesses two completely distinct difficulty levels.
+We managed to successfully implement Bounce in SICStus Prolog 4.8.0 so that the game is playable in three different modes: Player vs Player, Player vs CPU and CPU vs CPU. The CPU also possesses two completely distinct difficulty levels.
 
-One of the main issues we faced while developing this project was the amount of time it took to implement certain game features in Prolog that would be much faster to implement in languages that are more suitable to this kind of project.
+One of the main issues we faced while developing this project was the amount of time it took to implement certain game features in Prolog, as it was our first contact with it, that would be easier faster to implement in languages that we are more familiar with.
 
-In the future, we would like to spend more time working on the CPU opponent, developing an even more advanced algorithm, and on the game's UI.
+We would have liked to have spent even more time working on the CPU opponent, developing a more advanced algorithm that would allow for more challenging matches against it. We also wanted to put some more work into the main menu, making it more visually appealing, but there was not much more we could do working with text mode.
 
 ## Bibliography
 
