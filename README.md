@@ -72,6 +72,9 @@ The internal representation of the game's state is a structure composed of:
     ],
     red)
 ```
+<p align="center">
+  <img src="images/figure_4.png" alt="initial-state">
+</p>
 
 > The initial state of the board is always the same (for boards of the same size) - filled with a checkerboard pattern of both red and blue checkers, with the exception of the corner squares which are unoccupied, and with Red making the first move.
 
@@ -89,8 +92,12 @@ The internal representation of the game's state is a structure composed of:
         [red, blue, red, blue, red, blue, red, blue],
         [empty, red, blue, red, blue, red, blue, blue]
     ],
-    blue)
+    red)
 ```
+
+<p align="center">
+  <img src="images/figure_5.png" alt="intermediate-state">
+</p>
 
 > This is an example of how the board could look in an intermediate state, where both Red and Blue have moved checkers but no pieces have been removed from the board yet.
 
@@ -110,6 +117,10 @@ The internal representation of the game's state is a structure composed of:
     ],
     red)
 ```
+
+<p align="center">
+  <img src="images/figure_6.png" alt="final-state">
+</p>
 
 > This represents a possible state of the game in its final phase, where Blue has won the game by putting all of his checkers in one group.
 
