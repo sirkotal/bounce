@@ -156,7 +156,7 @@ game_cycle(GameState):-
 ### Game State Evaluation
 
 The state of the game is evaluated through the use of the `value/3` predicate, which is used to calculate how advantageous the game state is for the player - the lower the value, the better.
-`value/3` prioritizes the number of groups - the less the better, since the main objective is to have just one group - and we count them using `count_groups/3`. Since many moves would have the same score if we only used this predicate, they are graded based on how big they are by using `biggest_group/4` and `smallest_group/4`. (HERE)
+`value/3` prioritizes the number of groups - the less the better, since the main objective is to have just one group - and we count them using `count_groups/3`. Since many moves would have the same score if we only used this predicate, they are graded based on how big they are by using `biggest_group/4` and `smallest_group/4`. Less points are given to large groups because having a bigger group means a player is closer to winning and more points to small groups as having a small group can make it harder to link it to the others.
 
 ### Computer Plays
 
