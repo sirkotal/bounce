@@ -4,7 +4,7 @@
 
 ### Developed by:
 
-- João Pedro Rodrigues Coutinho , up202108787 (50%)
+- João Pedro Rodrigues Coutinho, up202108787 (50%)
 - Miguel Jorge Medeiros Garrido, up202108889 (50%)
 
 ## Instalation and Execution
