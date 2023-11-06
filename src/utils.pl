@@ -24,15 +24,19 @@ replace([Row|Rest], RowIndex, Col, Val, [Row|NewRest]) :-
 /* remove_checker(+Board, +X, +Y, -NewBoard)
    Removes a checker from the board */
 remove_checker(Board, X, Y, NewBoard) :-
-    X > 0, X < 9,   
-    Y > 0, Y < 9,
+    size_board(N),
+    Size is N + 1,
+    X > 0, X < Size,   
+    Y > 0, Y < Size,
     replace(Board, X, Y, empty, NewBoard).
 
 /* place_checker(+Board, +X, +Y, +Checker, -NewBoard)
    Places a checker in the board */
 place_checker(Board, X, Y, Checker, NewBoard) :-
-    X > 0, X < 9,
-    Y > 0, Y < 9,
+    size_board(N),
+    Size is N + 1,
+    X > 0, X < Size,
+    Y > 0, Y < Size,
     replace(Board, X, Y, Checker, NewBoard).
 
 /* next_player(+Player, -NextPlayer)
@@ -56,19 +60,22 @@ valid_moves([Board, Player], Player, ValidMoves) :-
 /* read_move(-X, +Context)
    Reads the player's input regarding a move */
 read_move(X, Context):-
+    size_board(N),
+    Size is N + 1,
     repeat,
     write(''),nl,
     atom_concat('INSERT THE ', Context, Print),
     write(Print), nl,
     read(X),
-    ((X > 0 , X < 9) -> !; (write('WRONG OPTION, PLEASE ENTER ANOTHER ONE'), nl, fail)).
+    ((X > 0 , X < Size) -> !; (write('WRONG OPTION, PLEASE ENTER ANOTHER ONE'), nl, fail)).
 
 /* count_adjacents(+Position_row, +Position_column, +Board, +Color, -Total, +InitialVisited, -EndVisited)
    Counts the checkers adjacent to a specific checker */
 count_adjacents(Position_row, Position_column, Board, Color, Total, InitialVisited, EndVisited) :-
     get_cell(Board, Position_row, Position_column, Color),
     append([[Position_row, Position_column]], InitialVisited, Temporary),
-    ((Position_column < 8, NewPosition_column is Position_column + 1, get_cell(Board, Position_row, NewPosition_column, Color), \+ memberchk([Position_row, NewPosition_column], InitialVisited)) -> 
+    size_board(N),
+    ((Position_column < N, NewPosition_column is Position_column + 1, get_cell(Board, Position_row, NewPosition_column, Color), \+ memberchk([Position_row, NewPosition_column], InitialVisited)) -> 
         InitialVisitedRight = Temporary,
         count_adjacents(Position_row, NewPosition_column, Board, Color, TotalRight, InitialVisitedRight, EndVisitedRight);  
         TotalRight = 0, EndVisitedRight = Temporary),
@@ -78,7 +85,7 @@ count_adjacents(Position_row, Position_column, Board, Color, Total, InitialVisit
         count_adjacents(Position_row, NewPosition_column1, Board, Color, TotalLeft, InitialVisitedLeft, EndVisitedLeft);  
         TotalLeft = 0, EndVisitedLeft = EndVisitedRight),
 
-    ((Position_row < 8, NewPosition_row is Position_row + 1, get_cell(Board, NewPosition_row, Position_column, Color), \+ memberchk([NewPosition_row, Position_column], EndVisitedLeft)) ->
+    ((Position_row < N, NewPosition_row is Position_row + 1, get_cell(Board, NewPosition_row, Position_column, Color), \+ memberchk([NewPosition_row, Position_column], EndVisitedLeft)) ->
           InitialVisitedBelow = EndVisitedLeft,
           count_adjacents(NewPosition_row, Position_column, Board, Color, TotalBelow, InitialVisitedBelow, EndVisitedBelow);  
           TotalBelow = 0, EndVisitedBelow = EndVisitedLeft),

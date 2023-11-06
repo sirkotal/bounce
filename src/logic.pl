@@ -30,8 +30,7 @@ choose_move([Board,Player], Move):-
             repeat,
             read_move(XCur, 'ROW'),
             read_move(YCur, 'COLUMN'),
-            get_cell(Board, XCur, YCur, Player),
-            Move = (XCur,YCur,-1,-1);
+            (get_cell(Board, XCur, YCur, Player) -> Move = (XCur,YCur,-1,-1) ; write('THAT MOVE IS NOT VALID!'), nl, fail);
             repeat,
             read_move(XCur, 'CURRENT ROW'),
             read_move(YCur, 'CURRENT COLUMN'),
@@ -75,8 +74,7 @@ value([Board, OtherPlayer], Player, Value):-
     count_groups([Board, Player], Checkers, Count),
     biggest_group([Board, Player], Checkers, 0, Max),
     smallest_group([Board, Player], Checkers, Size, Min),
-    /*maybe add more conditions*/
-    Value is Count + Size-Max + Size-Min.
+    Value is 1000*Count + 10*(Size-Max) + Size-Min.
 
 /*  game_over(+GameState, -Winner)
     Checks if the game has a winner */
@@ -95,7 +93,7 @@ congratulate(Winner):-
     player_name(Winner, Name),
     atom_concat('CONGRATULATIONS ', Name, Print),
     write(Print),
-    write(', YOU ARE THE WINNER').
+    write(', YOU ARE THE WINNER!').
 
 /*  print_player(+GameState)
     Prints the player that is currently playing */

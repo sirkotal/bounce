@@ -12,14 +12,18 @@
    Represents the player icon */
 :- dynamic player_icon/2.
 
-/* choose_difficulty(+Bot)
+/* size_board(+Size)
+   Represents the board size */
+:- dynamic size_board/1.
+
+/* choose_difficulty(+Number, +Bot)
    Configures the CPU's level of difficulty, name and icon */
-choose_difficulty(Bot) :-
+choose_difficulty(Number, Bot) :-
     (Bot = red -> 
         assert(player_name(Bot, 'Bot 1')), assert(player_icon(Bot, 'X')) ; 
         (player_icon(red, X), X = 'O' -> Icon = 'X'; Icon = 'O'),
         assert(player_name(Bot, 'Bot 2')), assert(player_icon(Bot, Icon))),
-    write('----- BOT -----'), nl,
+    format('----- LEVEL BOT ~d -----', [Number]), nl,
     write(''), nl,
     write('1 - RANDOM'), nl,
     write(''), nl,
@@ -34,6 +38,7 @@ choose_difficulty(Bot) :-
 /* choose_name(+Number, +Player)
    Configures the Player's name */
 choose_name(Number, Player):-
+    write(''), nl,
     format('INSERT PLAYER ~d NAME', [Number]), nl,
     write(''), nl,
     repeat,
@@ -44,6 +49,7 @@ choose_name(Number, Player):-
 /* choose_icon(+Number, +Player)
    Configures the Player's icon */
 choose_icon(Number, Player) :-
+    write(''), nl,
     format('INSERT PLAYER ~d ICON (ONE CHARACTER ONLY)', [Number]), nl,
     write(''), nl,
     repeat,
@@ -59,3 +65,4 @@ clear_data :-
     retractall(bot(_,_)),
     retractall(player_name(_,_)),
     retractall(player_icon(_,_)).
+    retractall(size_board(_)).

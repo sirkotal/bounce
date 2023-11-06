@@ -20,7 +20,7 @@ game_cycle(GameState):-
    Starts the game and clears its data when it ends */
 play:-
     show_menu,
-    /*change here*/
-    initial_state(Board),
-    game_cycle([Board, red]),
+    size_board(Size),
+    initial_state(Size,GameState),
+    game_cycle(GameState),
     clear_data.
