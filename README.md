@@ -163,7 +163,7 @@ The state of the game is evaluated through the use of the `value/3` predicate, w
 We managed to implement two distinct difficulty levels for the CPU opponent, using the `choose_move/3` predicate:
 
 - The **Level 1** CPU opponent randomly selects a move from a list of valid moves available to him. If there is no valid move available to the CPU, he will randomly remove one of his checkers from the board.
-- The **Level 2** CPU opponent utilizes a greedy strategy (to be continued...)
+- The **Level 2** CPU opponent utilizes a greedy strategy. It iterates through all valid moves, calculating the value of the board after each move using `value/3` These value-move pairs are stored in a list, which is then sorted in ascending order based on the values. Finally, the CPU selects the move with the lowest value, as it represents the current best move.
 
 In both difficulty levels, the CPU makes use of the `valid_moves/3` predicate, which retrieves all valid moves available to a player.
 
